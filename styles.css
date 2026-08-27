@@ -99,6 +99,6 @@ body, .container {
     background-color: rgb(100, 140, 200);
 }
 
-.span-two {
-    grid-column: span 2;
+.span-three {
+    grid-column: span 3;
 }
