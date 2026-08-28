@@ -38,6 +38,7 @@ break until it touches the page.
 | --- | --- | --- |
 | `add` / `subtract` / `multiply` / `divide` (lines 9–23) | `known` | Hand-written; four functions with the same shape. → [[function-declarations]] |
 | `operate` (lines 5–7) | `known` | Probed: gave `operate(1, 2, add)` and explained why `add` has no parentheses. → [[first-class-functions]] |
+| `display` / `buttons` selections + the delegated click listener (lines 25–31) | `known` | Agent-written skeleton, learner-written handler body. One listener on `.buttons`; a guard rejects anything without the `digit` class, so gap clicks are ignored. → [[event-delegation]], [[truthiness-and-guards]] |
 | `let firstNum / secondNum / operator` (lines 1–3) | `parked` | Declared but never read or written by any code. Stated the *rule* for which one receives a digit, correctly — but no code implements it. **Due:** Section 3. → [[calculator-state-machine]] |
 | The `operator` parameter shadowing the `operator` global | `parked` | Harmless today, load-bearing the moment buttons are wired. **Due:** Section 3. → [[scope-and-shadowing]] |
 
@@ -47,7 +48,7 @@ almost none of it was probed.
 
 | Region | Status | Why |
 | --- | --- | --- |
-| `.buttons { display: grid; grid-template-columns: repeat(4, 1fr) }` (51–57) | `parked` | Partial model: got the *outcome* (four equal quarters), not the *mechanism* (`fr` divides leftover space). Self-identified as the least-owned code in the project. **Due:** Section 2 reclaim task. → [[css-grid]] |
+| `.buttons { display: grid; grid-template-columns: repeat(4, 1fr) }` (51–57) | `known` | **Reclaimed 2026-08-28.** Broke it to `100px` tracks, observed and explained the overflow, then explained implicit row creation. → [[css-grid]], [[flex-axis]] |
 | `.equals { grid-row: span 2 }`, `.span-two`, `.span-three` (92–108) | `parked` | The spanning rules that make the layout non-rectangular. Unprobed. **Due:** with the grid reclaim. → [[css-grid]] |
 | `* { box-sizing: border-box }` (1–5) | `parked` | The reset. Unprobed. **Due:** Section 2, alongside the grid — it's why the 400px calculator actually stays 400px. → [[box-sizing]] |
 | `body`, `.container` centering (7–23) | `parked` | Flexbox centering. Unprobed. **Due:** Section 2 reclaim. → [[flexbox-centering]] |

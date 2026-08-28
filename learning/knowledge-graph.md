@@ -27,7 +27,7 @@ Seeded: 2026-08-28
 | `first-class-functions` | `practicing` | `function-declarations` | Probed: produced `operate(1, 2, add)` unprompted and explained that `add` without parentheses is the function itself, not its result. | 2026-08-28 |
 | `scope-and-shadowing` | `seed` | `function-declarations` | Named in conversation (the `operator` parameter hides the `operator` global) but not engaged with. Comes due in Section 3. | — |
 | `string-vs-number-coercion` | `seed` | `textcontent` | Flagged as a coming problem: `textContent += "7"` builds a string, `add()` needs a number. Not yet reasoned about. | — |
-| `truthiness-and-guards` | `seed` | `calculator-state-machine` | Needed for divide-by-zero and for `=` pressed too early. | — |
+| `truthiness-and-guards` | `introduced` | `calculator-state-machine` | Wrote a working early-return guard clause after being given the shape (`if (not a digit) return;`). The negation and placement were the learner's. Still needed for divide-by-zero and `=` pressed too early. | 2026-08-28 |
 | `rounding-floats` | `seed` | `calculator-state-machine` | `0.1 + 0.2` and long decimals overflowing a fixed-width display. | — |
 
 ## JavaScript — the browser (DOM)
@@ -35,13 +35,14 @@ Seeded: 2026-08-28
 | Concept | Status | Depends on | Evidence | Date |
 | --- | --- | --- | --- | --- |
 | `script-loading-defer` | `practicing` | — | Probed: explained that `defer` waits for the HTML, then correctly predicted that without it `document.querySelector` runs before `<body>` exists. Given the precision that it returns `null` rather than throwing. | 2026-08-28 |
-| `dom-selection` | `introduced` | `script-loading-defer` | Reasoned about `document.querySelector(".display")` and what it returns when the element isn't there yet. No selection code written. | 2026-08-28 |
-| `textcontent` | `introduced` | `dom-selection` | Explained setting `.textContent = 7`, appending with `+=`, and — unprompted — that the dummy `1234.56` must be cleared first. No code written. | 2026-08-28 |
-| `event-listeners` | `introduced` | `dom-selection` | Described attaching a click listener to the buttons as the plan behind the uncommitted `digit` classes. Nothing wired up yet. | 2026-08-28 |
-| `event-delegation` | `introduced` | `event-listeners` | Arrived at the shape independently — "*if it contained digit*" — without knowing the name. Later used the term unprompted and traced a click through both levels: the container listener fires, the `if` check is what rejects it. Still no code written. | 2026-08-28 |
+| `dom-selection` | `introduced` | `script-loading-defer` | Reasoned about `document.querySelector(".display")` and what it returns when the element isn't there yet. The two `querySelector` lines now in `script.js` were agent-written, so this stays `introduced` — no selection code authored yet. | 2026-08-28 |
+| `textcontent` | `practicing` | `dom-selection` | Explained the append-and-clear plan in conversation, then wrote `console.log(event.target.textContent)` and confirmed it printed `7`. | 2026-08-28 |
+| `event-listeners` | `practicing` | `dom-selection` | The `addEventListener` call and the two `querySelector` lines were agent-written; the handler body is the learner's. Verified in the browser: clicking `7` logged `7`. | 2026-08-28 |
+| `event-delegation` | `practicing` | `event-listeners` | Predicted correctly that a click in the 10px `gap` reports `.buttons` as `event.target`, reasoning that gaps belong to the container. Then wrote the guard `if (!event.target.matches(".digit")) return;` and confirmed gap clicks log nothing. | 2026-08-28 |
 | `keyboard-events` | `seed` | `event-listeners` | Extra credit. Not discussed. | — |
 | `behavior-vs-style-hooks` | `introduced` | `event-delegation` | Searched the stylesheet and found that `digit` is the only class with no CSS rule, then explained why it's there anyway: a hook for JavaScript to find buttons, not a way to style them. | 2026-08-28 |
-| `data-attributes` | `seed` | `behavior-vs-style-hooks` | Named as the professional alternative to a JS-only class (`data-digit="7"`, immune to being deleted as dead CSS). Explicitly parked — comes due in Section 2. | — |
+| `data-attributes` | `seed` | `behavior-vs-style-hooks` | Named as the professional alternative to a JS-only class. Now has a concrete forcing reason (see `unicode-operator-labels`). **Due:** Section 3. | — |
+| `unicode-operator-labels` | `seed` | `textcontent` | Verified by inspecting the file: `÷` is U+00F7, `×` is U+00D7, `−` is U+2212 — none are `/`, `*`, `-`. Digits are plain ASCII, so `textContent` is safe for them and unsafe for operators. Told, not yet demonstrated. | — |
 | `silent-failure` | `introduced` | `event-delegation` | Traced the missing-`digit` bug precisely: the listener still fires, the class check rejects it, nothing happens and no error appears. Contrasted against a `TypeError`, which at least points at a line. | 2026-08-28 |
 
 ## The application logic
@@ -55,7 +56,8 @@ Seeded: 2026-08-28
 
 | Concept | Status | Depends on | Evidence | Date |
 | --- | --- | --- | --- | --- |
-| `css-grid` | `introduced` | `box-sizing` | Probed: got the outcome (`repeat(4, 1fr)` → four equal columns) but not the mechanism (`fr` splits *leftover* space after fixed sizes). Self-identified as the least-owned code in the project — "I don't have the understanding of someone who would have written it himself." | 2026-08-28 |
+| `css-grid` | `practicing` | `box-sizing` | **Reclaimed 2026-08-28.** Broke `repeat(4, 1fr)` → `repeat(4, 100px)`, observed the 70px overflow past the container, and described it accurately without help. Then explained implicit row creation unprompted: grid manufactures rows as auto-placement runs out of columns. Started the session with outcome-without-mechanism; ended with the mechanism. | 2026-08-28 |
+| `flex-axis` | `introduced` | — | **Wrong prediction, corrected.** Expected `flex: 1` on `.buttons` to widen `.calculator`. It doesn't: `.calculator` is `flex-direction: column`, so `flex: 1` grows height only, and a flex item never resizes its parent. Not yet re-tested. | 2026-08-28 |
 | `box-sizing` | `seed` | — | `* { box-sizing: border-box }` sits at the top of the stylesheet, unprobed. | — |
 | `flexbox-centering` | `seed` | — | Used in `body`, `.container`, and `.display`. Unprobed. | — |
 | `css-specificity` | `seed` | — | `.operator` and `.clear` override `.btn`; `:hover`/`:active` layer on top. Unprobed, cosmetic. | — |
@@ -65,8 +67,8 @@ Seeded: 2026-08-28
 
 | Concept | Status | Depends on | Evidence | Date |
 | --- | --- | --- | --- | --- |
-| `git-basics` | `practicing` | — | Visible in the repo, not self-reported: 7 commits, each one small and scoped to a single change, with honest messages. The habit is already in place. | 2026-08-28 |
-| `git-commit-messages` | `introduced` | `git-basics` | Messages are honest and readable but informal ("nvm this is the fixed css to get rid of the ."). The Odin Commit Messages lesson is the reference. | 2026-08-28 |
+| `git-basics` | `out-of-scope` | — | Repo evidence: 7 commits, each small and scoped, with honest messages. Beyond that, **not assessed** — declined probing, citing ~4 years of professional experience. Recorded as out of scope rather than promoted on self-report, which would be a false evidence entry either way. | 2026-08-28 |
+| `git-commit-messages` | `out-of-scope` | `git-basics` | Cut with the rest of Section 1's git content at the learner's request. | 2026-08-28 |
 | `static-sites` | `introduced` | — | Explained on demand how the app runs: "I just open index.html in the browser." Given the boundary — `file://` breaks once ES modules or `fetch()` appear, and a local server is needed. | 2026-08-28 |
 | `automated-testing` | `seed` | `function-declarations` | **Absent from the project.** Nothing verifies `divide(1, 0)`. Absence is curriculum. | — |
 | `deployment` | `seed` | `static-sites` | **Absent from the project.** A static site is the cheapest possible first deploy. | — |
@@ -78,10 +80,10 @@ Seeded: 2026-08-28
 
 | Status | Count |
 | --- | --- |
-| `practicing` | 4 |
-| `introduced` | 10 |
-| `seed` | 12 |
-| `understood` | 0 |
+| `practicing` | 7 |
+| `introduced` | 7 |
+| `seed` | 14 |
+| `out-of-scope` | 2 |
 
 Nothing sits at `understood` yet, and nothing should — that status means writing
 it from a blank file and predicting its failure modes, which no probe in a single

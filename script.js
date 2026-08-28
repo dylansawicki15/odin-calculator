@@ -21,3 +21,11 @@ function multiply(firstNum, secondNum) {
 function divide(firstNum, secondNum) {
     return firstNum / secondNum;
 }
+
+const display = document.querySelector(".display");
+const buttons = document.querySelector(".buttons");
+
+buttons.addEventListener("click", (event) => {
+    if (!event.target.matches(".digit")) return; 
+    console.log(event.target.textContent);
+});

@@ -2,11 +2,16 @@
 
 ## About me
 
-- Working through **The Odin Project — Foundations**. This is the Calculator assignment.
+- **Roughly four years as a programmer** (self-reported, 2026-08-28). Working through
+  The Odin Project — Foundations as fundamentals review, not as a first exposure to
+  code. The early sessions of this adoption pitched too low; corrected here.
 - Comfortable enough with JavaScript functions to pass a function as an argument
   (`operate(1, 2, add)`) and explain why `add` has no parentheses there.
-- Commits early and often already, in small honest steps. That habit is in place; the
-  plan does not need to teach it.
+- **Git is not a gap.** Explicitly asked to skip it; Section 1's git lessons were cut.
+- **CSS is the gap that showed.** `1fr` came back as "a fraction of the part before it"
+  — outcome without mechanism. A normal shape for anyone whose time has gone into
+  backend, systems, or data rather than layout. The CSS reclaim tasks stay in the plan
+  by explicit request.
 
 ### How this code got here
 

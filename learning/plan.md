@@ -51,9 +51,12 @@ find that `0` is missing the `digit` class its nine siblings have.
 ### Tasks
 
 - [x] **1.1** Reclaim the button markup — account for every class on every button, find the odd one out, and fix it.
-- [ ] **1.2** Commit that fix. You write the message.
-- [ ] **1.3** Commit `learning/` so the record of understanding is versioned with the code.
-- [ ] **1.4** Prove the baseline works — break something on purpose, find it with `git diff`, and restore it.
+- [x] **1.2** Commit the `digit`-class fix and `learning/`. **No lesson** — your workflow, your message. *(`69f65f6`)*
+
+> **Re-scoped 2026-08-28, at your request.** The original 1.2–1.4 taught the staging
+> area, commit-message conventions, and `git diff` recovery. Cut: you have four years
+> of professional experience and git is not the gap. Nothing else in the plan changed —
+> the CSS reclaim tasks and the Section 3–5 state-machine work stand as written.
 
 ---
 
@@ -73,6 +76,13 @@ is the sentence you should be able to say without looking.
 *Receipts:* assignment step 5; `css-grid` sits at `introduced` with a partial
 model in [knowledge-graph.md](knowledge-graph.md); self-flagged as the least-owned
 code in the project.
+
+### Tasks
+
+- [x] **2.1** Reclaim CSS Grid — explain what holds the current layout together, break `1fr` on purpose, predict the failure, restore.
+- [x] **2.2** One delegated click listener on `.buttons` that reports which button was clicked.
+- [ ] **2.3** Digit clicks append to the display, with the dummy `1234.56` cleared on first press.
+- [ ] **2.4** Clear wipes the display back to a known state.
 
 ---
 
