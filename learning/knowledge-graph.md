@@ -26,7 +26,7 @@ Seeded: 2026-08-28
 | `function-declarations` | `practicing` | — | Wrote `add`/`subtract`/`multiply`/`divide` by hand, four functions with a consistent shape. | 2026-08-28 |
 | `first-class-functions` | `practicing` | `function-declarations` | Probed: produced `operate(1, 2, add)` unprompted and explained that `add` without parentheses is the function itself, not its result. | 2026-08-28 |
 | `scope-and-shadowing` | `seed` | `function-declarations` | Named in conversation (the `operator` parameter hides the `operator` global) but not engaged with. Comes due in Section 3. | — |
-| `string-vs-number-coercion` | `seed` | `textcontent` | Flagged as a coming problem: `textContent += "7"` builds a string, `add()` needs a number. Not yet reasoned about. | — |
+| `string-vs-number-coercion` | `introduced` | `textcontent` | Wrote `firstNum += digit` (number `0` plus a string) during 2.3, then debugged their way to a string accumulator (`currentInput`). Reached the right answer; the coercion rule itself was never stated aloud, so this stays `introduced`. | 2026-08-28 |
 | `truthiness-and-guards` | `introduced` | `calculator-state-machine` | Wrote a working early-return guard clause after being given the shape (`if (not a digit) return;`). The negation and placement were the learner's. Still needed for divide-by-zero and `=` pressed too early. | 2026-08-28 |
 | `rounding-floats` | `seed` | `calculator-state-machine` | `0.1 + 0.2` and long decimals overflowing a fixed-width display. | — |
 
@@ -50,6 +50,8 @@ Seeded: 2026-08-28
 | Concept | Status | Depends on | Evidence | Date |
 | --- | --- | --- | --- | --- |
 | `calculator-state-machine` | `introduced` | `event-listeners`, `first-class-functions` | Stated the routing rule correctly and unprompted: no operator set → the digit belongs to `firstNum`; operator set, `=` not yet pressed → `secondNum`. No code implements it. The gap named: telling "just pressed `=`" apart from "just chained an operator" needs a third piece of state. | 2026-08-28 |
+| `dom-as-state` | `practicing` | `textcontent` | Asked what breaks if the display is the source of truth once rounding is added: answered "you'd read back the rounded number, so the error compounds." Then built it the other way — `currentInput` holds the string, the DOM renders it. | 2026-08-28 |
+| `single-responsibility` | `practicing` | — | Diagnosed the smell unaided: `updateDisplay("")` needed a fake argument because the function "is doing two things, appending and rendering." Then split it into a mutator and a renderer, making the renderer take its value as a parameter rather than reading the global. | 2026-08-28 |
 | `operator-string-to-function` | `seed` | `first-class-functions`, `calculator-state-machine` | The crux of assignment step 6: a button hands over `"+"`, `operate` wants `add`. Named, not solved. | — |
 
 ## CSS
@@ -80,9 +82,9 @@ Seeded: 2026-08-28
 
 | Status | Count |
 | --- | --- |
-| `practicing` | 7 |
-| `introduced` | 7 |
-| `seed` | 14 |
+| `practicing` | 9 |
+| `introduced` | 8 |
+| `seed` | 13 |
 | `out-of-scope` | 2 |
 
 Nothing sits at `understood` yet, and nothing should — that status means writing

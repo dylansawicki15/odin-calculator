@@ -22,6 +22,7 @@ curriculum, one by omission. All four are the boring, correct choice.
 | **No build step, no `package.json`** | Nothing compiles your code — the files you write are the files the browser runs. | **Understood.** Explained on demand: "I just open index.html in the browser." Boundary named: `file://` breaks once ES modules or `fetch()` appear, and then a local server is required. |
 | **Plain CSS**, no preprocessor or utility framework | Selectors and properties by hand, in one 108-line file. | Inherited from Odin, understood |
 | **CSS Grid** for the keypad | A 4-column grid with two spanning buttons produces the calculator layout. | **Still fuzzy.** Outcome known, mechanism not. Revisited in Section 2's reclaim task. |
+| **Blank display on load** — not `0` | A freshly loaded calculator shows nothing until the first digit. | **Decided 2026-08-28**, deliberately, when asked. `renderDisplay(currentInput)` on load renders the empty string. |
 | **No persistence** — no database, no `localStorage` | Refresh and the calculator forgets everything. Correct: a calculator has no reason to remember. | Decision by omission, named here so it's a choice rather than an accident |
 
 **Automated testing stays out of scope**, deliberately and with a reason. Adding
@@ -81,7 +82,7 @@ code in the project.
 
 - [x] **2.1** Reclaim CSS Grid — explain what holds the current layout together, break `1fr` on purpose, predict the failure, restore.
 - [x] **2.2** One delegated click listener on `.buttons` that reports which button was clicked.
-- [ ] **2.3** Digit clicks append to the display, with the dummy `1234.56` cleared on first press.
+- [x] **2.3** Digit clicks append to the display, with the dummy `1234.56` cleared on first press.
 - [ ] **2.4** Clear wipes the display back to a known state.
 
 ---

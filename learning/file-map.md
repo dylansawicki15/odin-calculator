@@ -38,7 +38,9 @@ break until it touches the page.
 | --- | --- | --- |
 | `add` / `subtract` / `multiply` / `divide` (lines 9–23) | `known` | Hand-written; four functions with the same shape. → [[function-declarations]] |
 | `operate` (lines 5–7) | `known` | Probed: gave `operate(1, 2, add)` and explained why `add` has no parentheses. → [[first-class-functions]] |
-| `display` / `buttons` selections + the delegated click listener (lines 25–31) | `known` | Agent-written skeleton, learner-written handler body. One listener on `.buttons`; a guard rejects anything without the `digit` class, so gap clicks are ignored. → [[event-delegation]], [[truthiness-and-guards]] |
+| `display` / `buttons` selections + the delegated click listener | `known` | Agent-written skeleton, learner-written handler body. One listener on `.buttons`; a guard rejects anything without the `digit` class, so gap clicks are ignored. → [[event-delegation]], [[truthiness-and-guards]] |
+| `updateDisplay(digit)` / `renderDisplay(value)` | `known` | Learner-written, including the split. `updateDisplay` appends to `currentInput`; `renderDisplay` writes a passed-in value to the DOM and reads no globals. Name worth revisiting — `updateDisplay` appends, it doesn't update the display. → [[single-responsibility]], [[dom-as-state]] |
+| `let currentInput = ""` (line 4) | `known` | The typing buffer, and the single source of truth for what's been entered. Deliberately a string: digit entry is concatenation, not arithmetic. → [[dom-as-state]], [[string-vs-number-coercion]] |
 | `let firstNum / secondNum / operator` (lines 1–3) | `parked` | Declared but never read or written by any code. Stated the *rule* for which one receives a digit, correctly — but no code implements it. **Due:** Section 3. → [[calculator-state-machine]] |
 | The `operator` parameter shadowing the `operator` global | `parked` | Harmless today, load-bearing the moment buttons are wired. **Due:** Section 3. → [[scope-and-shadowing]] |
 
