@@ -25,7 +25,7 @@ use to find things. Split by region because the regions differ in status.
 | --- | --- | --- |
 | `<script defer src="script.js">` (line 7) | `known` | Explained the mechanism *and* predicted that `querySelector` would return `null` if removed. → [[script-loading-defer]] |
 | `class="digit"` on 7,8,9,4,5,6,1,2,3 | `known` | Own uncommitted work; explained the plan (listen for clicks, branch on the class). → [[event-delegation]] |
-| `<div class="display">1234.56</div>` (line 14) | `known` | Identified it as dummy content that must be cleared on first keypress. → [[textcontent]] |
+| `<div class="display"></div>` (line 14) | `known` | **Emptied 2026-08-28, own edit.** Was dummy content (`1234.56`); now blank, matching the deliberate blank-on-load decision. Tradeoff identified unprompted: a failed script and an untouched calculator now look the same. → [[textcontent]], [[silent-failure]] |
 | The button markup inside `.calculator` | `known` | **Reclaimed 2026-08-28.** Accounted for all seven classes and identified `digit` as the only behaviour hook among six style hooks. → [[behavior-vs-style-hooks]] |
 | `<button class="btn digit span-three">0</button>` (line 36) | `known` | **Own edit, uncommitted, found 2026-08-28.** Was missing the `digit` class its nine siblings have. Separately, traced the resulting silent failure correctly in conversation. Timing of the edit relative to that reasoning is unknown and not claimed. → [[silent-failure]] |
 
@@ -41,6 +41,7 @@ break until it touches the page.
 | `display` / `buttons` selections + the delegated click listener | `known` | Agent-written skeleton, learner-written handler body. One listener on `.buttons`; a guard rejects anything without the `digit` class, so gap clicks are ignored. → [[event-delegation]], [[truthiness-and-guards]] |
 | `updateDisplay(digit)` / `renderDisplay(value)` | `known` | Learner-written, including the split. `updateDisplay` appends to `currentInput`; `renderDisplay` writes a passed-in value to the DOM and reads no globals. Name worth revisiting — `updateDisplay` appends, it doesn't update the display. → [[single-responsibility]], [[dom-as-state]] |
 | `let currentInput = ""` (line 4) | `known` | The typing buffer, and the single source of truth for what's been entered. Deliberately a string: digit entry is concatenation, not arithmetic. → [[dom-as-state]], [[string-vs-number-coercion]] |
+| `clearAll()` + the two-branch click handler | `known` | Learner-written. `clearAll` is the single definition of "fresh" — one place to reset, so a variable added in Section 3 can't be forgotten. The handler routes digits and `.clear`; operators and `=` deliberately fall through to nothing. → [[truthiness-and-guards]] |
 | `let firstNum / secondNum / operator` (lines 1–3) | `parked` | Declared but never read or written by any code. Stated the *rule* for which one receives a digit, correctly — but no code implements it. **Due:** Section 3. → [[calculator-state-machine]] |
 | The `operator` parameter shadowing the `operator` global | `parked` | Harmless today, load-bearing the moment buttons are wired. **Due:** Section 3. → [[scope-and-shadowing]] |
 

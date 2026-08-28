@@ -27,7 +27,7 @@ Seeded: 2026-08-28
 | `first-class-functions` | `practicing` | `function-declarations` | Probed: produced `operate(1, 2, add)` unprompted and explained that `add` without parentheses is the function itself, not its result. | 2026-08-28 |
 | `scope-and-shadowing` | `seed` | `function-declarations` | Named in conversation (the `operator` parameter hides the `operator` global) but not engaged with. Comes due in Section 3. | — |
 | `string-vs-number-coercion` | `introduced` | `textcontent` | Wrote `firstNum += digit` (number `0` plus a string) during 2.3, then debugged their way to a string accumulator (`currentInput`). Reached the right answer; the coercion rule itself was never stated aloud, so this stays `introduced`. | 2026-08-28 |
-| `truthiness-and-guards` | `introduced` | `calculator-state-machine` | Wrote a working early-return guard clause after being given the shape (`if (not a digit) return;`). The negation and placement were the learner's. Still needed for divide-by-zero and `=` pressed too early. | 2026-08-28 |
+| `truthiness-and-guards` | `practicing` | `calculator-state-machine` | Wrote the first guard clause after being given the shape. Later restructured the handler unaided into two positive branches with an early return, and wrote `clearAll` resetting all four state variables in one place — proposing that design himself when asked how to avoid forgetting a variable later. | 2026-08-28 |
 | `rounding-floats` | `seed` | `calculator-state-machine` | `0.1 + 0.2` and long decimals overflowing a fixed-width display. | — |
 
 ## JavaScript — the browser (DOM)
@@ -43,7 +43,7 @@ Seeded: 2026-08-28
 | `behavior-vs-style-hooks` | `introduced` | `event-delegation` | Searched the stylesheet and found that `digit` is the only class with no CSS rule, then explained why it's there anyway: a hook for JavaScript to find buttons, not a way to style them. | 2026-08-28 |
 | `data-attributes` | `seed` | `behavior-vs-style-hooks` | Named as the professional alternative to a JS-only class. Now has a concrete forcing reason (see `unicode-operator-labels`). **Due:** Section 3. | — |
 | `unicode-operator-labels` | `seed` | `textcontent` | Verified by inspecting the file: `÷` is U+00F7, `×` is U+00D7, `−` is U+2212 — none are `/`, `*`, `-`. Digits are plain ASCII, so `textContent` is safe for them and unsafe for operators. Told, not yet demonstrated. | — |
-| `silent-failure` | `introduced` | `event-delegation` | Traced the missing-`digit` bug precisely: the listener still fires, the class check rejects it, nothing happens and no error appears. Contrasted against a `TypeError`, which at least points at a line. | 2026-08-28 |
+| `silent-failure` | `practicing` | `event-delegation` | Traced the missing-`digit` bug precisely: listener fires, class check rejects, nothing happens, no error. **Retrieved again later in a new context**: after removing the dummy from the HTML, identified unprompted that "js failed to load" and "nothing has been typed yet" now look identical. | 2026-08-28 |
 
 ## The application logic
 
@@ -82,8 +82,8 @@ Seeded: 2026-08-28
 
 | Status | Count |
 | --- | --- |
-| `practicing` | 9 |
-| `introduced` | 8 |
+| `practicing` | 11 |
+| `introduced` | 6 |
 | `seed` | 13 |
 | `out-of-scope` | 2 |
 

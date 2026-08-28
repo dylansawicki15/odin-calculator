@@ -83,11 +83,17 @@ code in the project.
 - [x] **2.1** Reclaim CSS Grid — explain what holds the current layout together, break `1fr` on purpose, predict the failure, restore.
 - [x] **2.2** One delegated click listener on `.buttons` that reports which button was clicked.
 - [x] **2.3** Digit clicks append to the display, with the dummy `1234.56` cleared on first press.
-- [ ] **2.4** Clear wipes the display back to a known state.
+- [x] **2.4** Clear wipes the display back to a known state.
 
 ---
 
 ## Section 3 — One operation works
+
+> **Carried in from Section 2:** `clearAll` resets `firstNum` to `0`. Since `0` is a
+> number a user can legitimately type, that initial value cannot distinguish "no number
+> entered" from "the user typed zero". Harmless if the operator is the state switch (as
+> described during the inventory); a bug if anything ever tests `firstNum` for
+> truthiness. Decide explicitly when building the state machine.
 
 **Deliverable:** `3 + 5 =` puts `8` on the screen. The hardest section in the
 project, and the one the assignment warns you about.

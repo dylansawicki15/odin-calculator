@@ -35,9 +35,23 @@ function renderDisplay(value) {
     display.textContent = value;
 }
 
+function clearAll() {
+    firstNum = 0;
+    secondNum = 0;
+    operator = "";
+    currentInput = "";
+    renderDisplay(currentInput);
+}
+
 buttons.addEventListener("click", (event) => {
-    if (!event.target.matches(".digit")) return;
-    appendDigit(event.target.textContent);
+    if (event.target.matches(".digit")) {
+        appendDigit(event.target.textContent);
+        return;
+    }
+    
+    if (event.target.matches(".clear")) {
+        clearAll();
+    }
 });
 
 renderDisplay(currentInput);
