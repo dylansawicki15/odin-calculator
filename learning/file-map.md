@@ -1,0 +1,88 @@
+# File map — odin-calculator
+
+Every file on disk, why it exists, and whether it has been *demonstrated* — not
+whether it works. Status comes only from what was explained out loud in
+conversation.
+
+**Statuses:** `known` = explained on demand · `parked` = not yet earned, with a
+due date · `generated` = machine-made, never hand-edit
+
+This ledger is **parked-heavy on purpose**. Every parked line is a lesson already
+scheduled, not a failure. The CSS file is mostly parked because it was mostly
+unprobed — absence of evidence, recorded honestly.
+
+Last updated: 2026-08-28 (Section 1, task 1.1)
+
+---
+
+## Root
+
+### `index.html` — the page, and the data source your JS reads
+Holds the calculator's structure and, crucially, the CSS classes JavaScript will
+use to find things. Split by region because the regions differ in status.
+
+| Region | Status | Why |
+| --- | --- | --- |
+| `<script defer src="script.js">` (line 7) | `known` | Explained the mechanism *and* predicted that `querySelector` would return `null` if removed. → [[script-loading-defer]] |
+| `class="digit"` on 7,8,9,4,5,6,1,2,3 | `known` | Own uncommitted work; explained the plan (listen for clicks, branch on the class). → [[event-delegation]] |
+| `<div class="display">1234.56</div>` (line 14) | `known` | Identified it as dummy content that must be cleared on first keypress. → [[textcontent]] |
+| The button markup inside `.calculator` | `known` | **Reclaimed 2026-08-28.** Accounted for all seven classes and identified `digit` as the only behaviour hook among six style hooks. → [[behavior-vs-style-hooks]] |
+| `<button class="btn digit span-three">0</button>` (line 36) | `known` | **Own edit, uncommitted, found 2026-08-28.** Was missing the `digit` class its nine siblings have. Separately, traced the resulting silent failure correctly in conversation. Timing of the edit relative to that reasoning is unknown and not claimed. → [[silent-failure]] |
+
+### `script.js` — the math, and nothing else
+The only file with no DOM code in it. A pure library of four operators plus a
+dispatcher, waiting for a caller. This is why nothing has broken yet: it cannot
+break until it touches the page.
+
+| Region | Status | Why |
+| --- | --- | --- |
+| `add` / `subtract` / `multiply` / `divide` (lines 9–23) | `known` | Hand-written; four functions with the same shape. → [[function-declarations]] |
+| `operate` (lines 5–7) | `known` | Probed: gave `operate(1, 2, add)` and explained why `add` has no parentheses. → [[first-class-functions]] |
+| `let firstNum / secondNum / operator` (lines 1–3) | `parked` | Declared but never read or written by any code. Stated the *rule* for which one receives a digit, correctly — but no code implements it. **Due:** Section 3. → [[calculator-state-machine]] |
+| The `operator` parameter shadowing the `operator` global | `parked` | Harmless today, load-bearing the moment buttons are wired. **Due:** Section 3. → [[scope-and-shadowing]] |
+
+### `styles.css` — presentation, and the largest file here
+108 lines. Mostly parked, and that is a statement about evidence, not quality —
+almost none of it was probed.
+
+| Region | Status | Why |
+| --- | --- | --- |
+| `.buttons { display: grid; grid-template-columns: repeat(4, 1fr) }` (51–57) | `parked` | Partial model: got the *outcome* (four equal quarters), not the *mechanism* (`fr` divides leftover space). Self-identified as the least-owned code in the project. **Due:** Section 2 reclaim task. → [[css-grid]] |
+| `.equals { grid-row: span 2 }`, `.span-two`, `.span-three` (92–108) | `parked` | The spanning rules that make the layout non-rectangular. Unprobed. **Due:** with the grid reclaim. → [[css-grid]] |
+| `* { box-sizing: border-box }` (1–5) | `parked` | The reset. Unprobed. **Due:** Section 2, alongside the grid — it's why the 400px calculator actually stays 400px. → [[box-sizing]] |
+| `body`, `.container` centering (7–23) | `parked` | Flexbox centering. Unprobed. **Due:** Section 2 reclaim. → [[flexbox-centering]] |
+| `.display` flex + `overflow: hidden` (36–49) | `parked` | Right-aligns the number and hides overflow — which is *why* long decimals must be rounded rather than allowed to spill. **Due:** Section 4 (rounding). → [[flexbox-centering]] |
+| `.btn:hover` / `:active`, `.operator`, `.clear`, `.equals` colors (59–100) | `parked` | Pseudo-class states and how later rules override `.btn`. Unprobed. **Due:** low priority — cosmetic, no logic depends on it. → [[css-specificity]] |
+
+### `README.md` — one line
+`# odin-calculator`, nothing else. `parked`. **Due:** before this goes in a
+portfolio. Not blocking any code. → [[project-documentation]]
+
+---
+
+## Machine-managed
+
+### `.git/` — `generated`
+Git's own database: every commit, branch, and object. Never hand-edit; it is
+managed entirely through `git` commands. Currently 7 commits on `main`, HEAD
+`31711ae`. → [[git-basics]]
+
+### `learning/` — this method's files
+`project.md` (triage), `file-map.md` (this file), `knowledge-graph.md` (what is
+known and when it was proven), `plan.md` (what gets built next). Written by the
+adoption process, read by `/next-lesson`. Not part of the app — but **should be
+committed**, so the record of understanding lives with the code.
+
+---
+
+## Not present, and that is the point
+
+Absence is curriculum too. None of these exist, and each is a lesson waiting for
+the moment it turns load-bearing:
+
+- **No tests.** Nothing verifies `divide(1, 0)` behaves. → [[automated-testing]]
+- **No `package.json`, no build step, no dependencies.** Correct for this project —
+  worth understanding as a deliberate choice rather than an accident. → [[static-sites]]
+- **No deployment.** This is a static site; publishing it is cheap. → [[deployment]]
+- **No event listeners anywhere.** The entire interactive layer is unbuilt. That is
+  the plan, not a gap. → [[event-listeners]]
