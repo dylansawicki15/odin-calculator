@@ -112,6 +112,13 @@ instead, predict the exact error, and run it.
 the three globals and for the shadowing; `operator-string-to-function` sits at
 `seed`.
 
+### Tasks
+
+- [x] **3.1** Reclaim `operate` — say which `operator` line 7 actually uses, break the shadowing on purpose, predict the error, restore.
+- [ ] **3.2** Give the operator buttons machine-readable values with `data-` attributes, so `÷` maps to something code can switch on.
+- [ ] **3.3** Clicking an operator stores the first number and the chosen operator, and starts a fresh input buffer.
+- [ ] **3.4** `=` converts the strings to numbers, calls `operate`, and renders the result.
+
 ---
 
 ## Section 4 — Chaining without breaking

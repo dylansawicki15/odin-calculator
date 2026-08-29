@@ -3,24 +3,24 @@ let secondNum = 0;
 let operator = "";
 let currentInput = "";
 
-function operate(firstNum, secondNum, operator) {
-    return operator(firstNum, secondNum);
+function operate(a, b, operator) {
+    return operator(a, b);
 }
 
-function add(firstNum, secondNum) {
-    return firstNum + secondNum;
+function add(a, b) {
+    return a + b;
 }
 
-function subtract(firstNum, secondNum) {
-    return firstNum - secondNum;
+function subtract(a, b) {
+    return a - b;
 }
 
-function multiply(firstNum, secondNum) {
-    return firstNum * secondNum;
+function multiply(a, b) {
+    return a * b;
 }
 
-function divide(firstNum, secondNum) {
-    return firstNum / secondNum;
+function divide(a, b) {
+    return a / b;
 }
 
 const display = document.querySelector(".display");
