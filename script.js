@@ -1,7 +1,7 @@
-let firstNum = 0;
-let secondNum = 0;
+let num = 0;
 let operator = "";
 let currentInput = "";
+let showingResult = false;
 
 function operate(a, b, operator) {
     return operator(a, b);
@@ -49,16 +49,26 @@ function getOperation(name) {
     }
 }
 
+const typedNumber = () => Number(currentInput);
+
+function evaluate() {
+    return operate(num, typedNumber(), getOperation(operator));
+}
+
 function clearAll() {
-    firstNum = 0;
-    secondNum = 0;
+    num = 0;
     operator = "";
     currentInput = "";
+    showingResult = false;
     renderDisplay(currentInput);
 }
 
 buttons.addEventListener("click", (event) => {
     if (event.target.matches(".digit")) {
+        if (showingResult) {
+            currentInput = "";
+            showingResult = false;
+        }
         appendDigit(event.target.textContent);
         return;
     }
@@ -69,7 +79,15 @@ buttons.addEventListener("click", (event) => {
     }
 
     if (event.target.matches(".operator")) {
-        firstNum = Number(currentInput);
+        showingResult = false;
+
+        if (operator !== "" && currentInput !== "") {
+            num = evaluate();
+            renderDisplay(num);
+        } else if (operator === "") {
+            num = typedNumber();
+        }
+
         operator = event.target.dataset.op;
         currentInput = "";
         return;
@@ -77,10 +95,11 @@ buttons.addEventListener("click", (event) => {
 
     if (event.target.matches(".equals")) {
         if (operator === "") return;
-        secondNum = Number(currentInput);
-
-        const operation = getOperation(operator);
-        renderDisplay(operate(firstNum, secondNum, operation)); 
+        const result = evaluate();
+        renderDisplay(result);
+        currentInput = String(result);
+        operator = "";
+        showingResult = true;
         return;
     }
 });

@@ -137,6 +137,13 @@ stylesheet. Explain what it changes, then remove it and predict what happens to 
 
 *Receipts:* assignment step 7, gotchas 1, 6, and 7; `box-sizing` at `seed`.
 
+### Tasks
+
+- [x] **4.1** Chaining — pressing an operator while one is already pending evaluates the previous pair first, so `12 + 7 -` shows `19`.
+- [x] **4.2** Consecutive operators don't evaluate; the last one pressed wins.
+- [x] **4.3** A digit pressed after a displayed result starts a new calculation instead of appending.
+- [x] **4.4** Reclaim `box-sizing` — explain it, remove it, predict what happens to a 400px calculator.
+
 ---
 
 ## Section 5 — Refusing to crash

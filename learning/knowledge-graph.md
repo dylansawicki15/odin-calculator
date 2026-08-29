@@ -26,9 +26,11 @@ Seeded: 2026-08-28
 | `function-declarations` | `practicing` | — | Wrote `add`/`subtract`/`multiply`/`divide` by hand, four functions with a consistent shape. | 2026-08-28 |
 | `first-class-functions` | `practicing` | `function-declarations` | Probed: produced `operate(1, 2, add)` unprompted and explained that `add` without parentheses is the function itself. Later returned functions out of a `switch` and passed the result through `operate` in live code. | 2026-08-28 |
 | `scope-and-shadowing` | `practicing` | `function-declarations` | Named which binding line 7 resolves to and why. Predicted the `TypeError` from deleting `operate`'s third parameter, then predicted the worse case unprompted: `add` with its parameters deleted returns `0` silently. Renamed the parameters to `a`/`b` across all five functions to remove the shadow. | 2026-08-28 |
-| `string-vs-number-coercion` | `practicing` | `textcontent` | Traced an uncorrected `firstNum = currentInput` by hand and predicted **both** outcomes correctly: `3 + 5` gives `"35"`, `3 - 5` gives `-2`. Then applied `Number(currentInput)`. Earlier hit the same class of bug with `firstNum += digit` and debugged out of it. | 2026-08-28 |
+| `string-vs-number-coercion` | `practicing` | `textcontent` | Predicted both outcomes correctly from a hand trace (`3 + 5` → `"35"`, `3 - 5` → `-2`). **But has now written this bug three times in three different syntactic positions** — `firstNum += digit`, `firstNum = currentInput`, `operate(num, currentInput, …)` — and on the third reached for `Number(evaluate())`, patching the output rather than the input. Recognition is solid; the habit of converting at the boundary is not yet automatic. | 2026-08-28 |
 | `return-scope` | `introduced` | `function-declarations` | Wrote a `switch` with `return add;` directly inside the click handler, which returned the function to the browser and discarded it. The rule — `return` exits the function it is written inside, so a lookup needs its own function — was explained rather than derived. Applied correctly afterwards. | 2026-08-28 |
-| `truthiness-and-guards` | `practicing` | `calculator-state-machine` | `practicing` | `event-listeners`, `first-class-functions` | Stated the routing rule correctly during the inventory, then built the first half of it: the operator branch captures `firstNum`, records `operator`, and resets the buffer. Verified in the console — `firstNum = 6`, `operator = "add"`. The `=` half and the chaining rule are still unbuilt. | 2026-08-28 |
+| `dry-knowledge-duplication` | `introduced` | `single-responsibility` | Reached for "probably make it into a helper function" unprompted when the `=` and operator branches needed the same three lines, and extracted `evaluate()`. Took `typedNumber()` after the rule — deduplicate *knowledge*, not characters — was explained rather than derived. | 2026-08-28 |
+| `pure-functions` | `practicing` | `function-declarations` | Wrote `evaluate()` and `renderDisplay(value)` as functions that read inputs and return or render without mutating. Explained on demand why calling `evaluate()` twice in a row was safe: "evaluate doesn't mutate anything." | 2026-08-28 |
+| `truthiness-and-guards` | `practicing` | `calculator-state-machine` | `practicing` | `event-listeners`, `first-class-functions` | Stated the routing rule during the inventory, then built it. Derived the chaining condition unaided — `operator !== "" && currentInput !== ""` — and worked out that the evaluation belongs in the operator branch, not `=`, after checking whether `=` ever runs on `12 + 7 -`. Also collapsed `firstNum`/`secondNum` into a single `num`, correctly seeing that the second operand is always just what's typed. Also diagnosed the consecutive-operator bug unaided (`num` wiped to `0` by `Number("")`), though needed the three-case breakdown spelled out before seeing that two branches were hiding three states. Identified unaided that after `=` the result existed only on screen and nowhere in state, and named both fixes (`currentInput` holds the result; `operator` clears). Needed the `showingResult` flag broken down into its four touch-points before writing it. | 2026-08-28 |
 | `rounding-floats` | `seed` | `calculator-state-machine` | `0.1 + 0.2` and long decimals overflowing a fixed-width display. | — |
 
 ## JavaScript — the browser (DOM)
@@ -51,7 +53,7 @@ Seeded: 2026-08-28
 | Concept | Status | Depends on | Evidence | Date |
 | --- | --- | --- | --- | --- |
 | `calculator-state-machine` | `introduced` | `event-listeners`, `first-class-functions` | Stated the routing rule correctly and unprompted: no operator set → the digit belongs to `firstNum`; operator set, `=` not yet pressed → `secondNum`. No code implements it. The gap named: telling "just pressed `=`" apart from "just chained an operator" needs a third piece of state. | 2026-08-28 |
-| `dom-as-state` | `practicing` | `textcontent` | Asked what breaks if the display is the source of truth once rounding is added: answered "you'd read back the rounded number, so the error compounds." Then built it the other way — `currentInput` holds the string, the DOM renders it. | 2026-08-28 |
+| `dom-as-state` | `practicing` | `textcontent` | Answered what breaks if the display is the source of truth once rounding lands: "you'd read back the rounded number, so the error compounds." Built it the other way. Later hit the mirror-image bug — updated `num` on chaining without rendering, so the state was right and the screen was stale. | 2026-08-28 |
 | `single-responsibility` | `practicing` | — | Diagnosed the `updateDisplay("")` smell unaided — the function "is doing two things" — and split it. Later applied the same fix to a variable rather than a function: `operator` was holding both the chosen operation's *name* and the *function*, so a second `=` crashed; separated into `operator` and a local `operation`. | 2026-08-28 |
 | `operator-string-to-function` | `practicing` | `first-class-functions`, `calculator-state-machine` | Sketched the `switch` shape unprompted in 3.2, wrote all four cases himself. Got stuck on where `return` sends its value — the wrapper-function shape was agent-supplied after that. Then fixed the follow-on bug: `operator` was being reassigned to hold the looked-up function, breaking a second `=` press. | 2026-08-28 |
 
@@ -59,7 +61,7 @@ Seeded: 2026-08-28
 
 | Concept | Status | Depends on | Evidence | Date |
 | --- | --- | --- | --- | --- |
-| `css-grid` | `practicing` | `box-sizing` | **Reclaimed 2026-08-28.** Broke `repeat(4, 1fr)` → `repeat(4, 100px)`, observed the 70px overflow past the container, and described it accurately without help. Then explained implicit row creation unprompted: grid manufactures rows as auto-placement runs out of columns. Started the session with outcome-without-mechanism; ended with the mechanism. | 2026-08-28 |
+| `css-grid` | `practicing` | `box-sizing` | `practicing` | — | **Reclaimed 2026-08-28.** Explained the model unprompted and completely — padding counts inside the declared width, so `400px` with `20px` padding leaves `360px` of content — including the rationale ("so you don't have to do weird calculations in your head"). Then derived the `content-box` rendering exactly — 440 × 640 — from the model alone, without running the experiment. Learner's own code, not inherited. | 2026-08-28 |
 | `flex-axis` | `introduced` | — | **Wrong prediction, corrected.** Expected `flex: 1` on `.buttons` to widen `.calculator`. It doesn't: `.calculator` is `flex-direction: column`, so `flex: 1` grows height only, and a flex item never resizes its parent. Not yet re-tested. | 2026-08-28 |
 | `box-sizing` | `seed` | — | `* { box-sizing: border-box }` sits at the top of the stylesheet, unprobed. | — |
 | `flexbox-centering` | `seed` | — | Used in `body`, `.container`, and `.display`. Unprobed. | — |
@@ -83,8 +85,8 @@ Seeded: 2026-08-28
 
 | Status | Count |
 | --- | --- |
-| `practicing` | 16 |
-| `introduced` | 6 |
+| `practicing` | 17 |
+| `introduced` | 7 |
 | `seed` | 9 |
 | `out-of-scope` | 2 |
 
