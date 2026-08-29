@@ -32,7 +32,21 @@ function appendDigit(digit) {
 }
 
 function renderDisplay(value) {
+    if (value === "") {
+        display.textContent = "0";
+        return;
+    }
     display.textContent = value;
+}
+
+function getOperation(name) {
+    switch (name) {
+        // TODO(you): one case per operator, each returning the function itself
+        case "add": return add;
+        case "subtract": return subtract;
+        case "multiply": return multiply;
+        case "divide": return divide;
+    }
 }
 
 function clearAll() {
@@ -51,6 +65,23 @@ buttons.addEventListener("click", (event) => {
     
     if (event.target.matches(".clear")) {
         clearAll();
+        return;
+    }
+
+    if (event.target.matches(".operator")) {
+        firstNum = Number(currentInput);
+        operator = event.target.dataset.op;
+        currentInput = "";
+        return;
+    }
+
+    if (event.target.matches(".equals")) {
+        if (operator === "") return;
+        secondNum = Number(currentInput);
+
+        const operation = getOperation(operator);
+        renderDisplay(operate(firstNum, secondNum, operation)); 
+        return;
     }
 });
 

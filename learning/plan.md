@@ -22,7 +22,7 @@ curriculum, one by omission. All four are the boring, correct choice.
 | **No build step, no `package.json`** | Nothing compiles your code — the files you write are the files the browser runs. | **Understood.** Explained on demand: "I just open index.html in the browser." Boundary named: `file://` breaks once ES modules or `fetch()` appear, and then a local server is required. |
 | **Plain CSS**, no preprocessor or utility framework | Selectors and properties by hand, in one 108-line file. | Inherited from Odin, understood |
 | **CSS Grid** for the keypad | A 4-column grid with two spanning buttons produces the calculator layout. | **Still fuzzy.** Outcome known, mechanism not. Revisited in Section 2's reclaim task. |
-| **Blank display on load** — not `0` | A freshly loaded calculator shows nothing until the first digit. | **Decided 2026-08-28**, deliberately, when asked. `renderDisplay(currentInput)` on load renders the empty string. |
+| **`0` on load** — reversed from blank | A freshly loaded calculator shows `0`. `renderDisplay` maps `""` to `"0"`; `currentInput` stays `""` so appending still works. | **Decided blank 2026-08-28, reversed the same day.** Reason for the reversal, learner's own: pressing an operator first makes `firstNum` `0`, so a display showing `0` states a value that genuinely exists — the view and the state agree. Side benefit: a blank display now means the script failed to run. |
 | **No persistence** — no database, no `localStorage` | Refresh and the calculator forgets everything. Correct: a calculator has no reason to remember. | Decision by omission, named here so it's a choice rather than an accident |
 
 **Automated testing stays out of scope**, deliberately and with a reason. Adding
@@ -115,9 +115,9 @@ the three globals and for the shadowing; `operator-string-to-function` sits at
 ### Tasks
 
 - [x] **3.1** Reclaim `operate` — say which `operator` line 7 actually uses, break the shadowing on purpose, predict the error, restore.
-- [ ] **3.2** Give the operator buttons machine-readable values with `data-` attributes, so `÷` maps to something code can switch on.
-- [ ] **3.3** Clicking an operator stores the first number and the chosen operator, and starts a fresh input buffer.
-- [ ] **3.4** `=` converts the strings to numbers, calls `operate`, and renders the result.
+- [x] **3.2** Give the operator buttons machine-readable values with `data-` attributes, so `÷` maps to something code can switch on.
+- [x] **3.3** Clicking an operator stores the first number and the chosen operator, and starts a fresh input buffer.
+- [x] **3.4** `=` converts the strings to numbers, calls `operate`, and renders the result.
 
 ---
 

@@ -24,10 +24,11 @@ Seeded: 2026-08-28
 | Concept | Status | Depends on | Evidence | Date |
 | --- | --- | --- | --- | --- |
 | `function-declarations` | `practicing` | — | Wrote `add`/`subtract`/`multiply`/`divide` by hand, four functions with a consistent shape. | 2026-08-28 |
-| `first-class-functions` | `practicing` | `function-declarations` | Probed: produced `operate(1, 2, add)` unprompted and explained that `add` without parentheses is the function itself, not its result. | 2026-08-28 |
+| `first-class-functions` | `practicing` | `function-declarations` | Probed: produced `operate(1, 2, add)` unprompted and explained that `add` without parentheses is the function itself. Later returned functions out of a `switch` and passed the result through `operate` in live code. | 2026-08-28 |
 | `scope-and-shadowing` | `practicing` | `function-declarations` | Named which binding line 7 resolves to and why. Predicted the `TypeError` from deleting `operate`'s third parameter, then predicted the worse case unprompted: `add` with its parameters deleted returns `0` silently. Renamed the parameters to `a`/`b` across all five functions to remove the shadow. | 2026-08-28 |
-| `string-vs-number-coercion` | `introduced` | `textcontent` | Wrote `firstNum += digit` (number `0` plus a string) during 2.3, then debugged their way to a string accumulator (`currentInput`). Reached the right answer; the coercion rule itself was never stated aloud, so this stays `introduced`. | 2026-08-28 |
-| `truthiness-and-guards` | `practicing` | `calculator-state-machine` | Wrote the first guard clause after being given the shape. Later restructured the handler unaided into two positive branches with an early return, and wrote `clearAll` resetting all four state variables in one place — proposing that design himself when asked how to avoid forgetting a variable later. | 2026-08-28 |
+| `string-vs-number-coercion` | `practicing` | `textcontent` | Traced an uncorrected `firstNum = currentInput` by hand and predicted **both** outcomes correctly: `3 + 5` gives `"35"`, `3 - 5` gives `-2`. Then applied `Number(currentInput)`. Earlier hit the same class of bug with `firstNum += digit` and debugged out of it. | 2026-08-28 |
+| `return-scope` | `introduced` | `function-declarations` | Wrote a `switch` with `return add;` directly inside the click handler, which returned the function to the browser and discarded it. The rule — `return` exits the function it is written inside, so a lookup needs its own function — was explained rather than derived. Applied correctly afterwards. | 2026-08-28 |
+| `truthiness-and-guards` | `practicing` | `calculator-state-machine` | `practicing` | `event-listeners`, `first-class-functions` | Stated the routing rule correctly during the inventory, then built the first half of it: the operator branch captures `firstNum`, records `operator`, and resets the buffer. Verified in the console — `firstNum = 6`, `operator = "add"`. The `=` half and the chaining rule are still unbuilt. | 2026-08-28 |
 | `rounding-floats` | `seed` | `calculator-state-machine` | `0.1 + 0.2` and long decimals overflowing a fixed-width display. | — |
 
 ## JavaScript — the browser (DOM)
@@ -40,9 +41,9 @@ Seeded: 2026-08-28
 | `event-listeners` | `practicing` | `dom-selection` | The `addEventListener` call and the two `querySelector` lines were agent-written; the handler body is the learner's. Verified in the browser: clicking `7` logged `7`. | 2026-08-28 |
 | `event-delegation` | `practicing` | `event-listeners` | Predicted correctly that a click in the 10px `gap` reports `.buttons` as `event.target`, reasoning that gaps belong to the container. Then wrote the guard `if (!event.target.matches(".digit")) return;` and confirmed gap clicks log nothing. | 2026-08-28 |
 | `keyboard-events` | `seed` | `event-listeners` | Extra credit. Not discussed. | — |
-| `behavior-vs-style-hooks` | `introduced` | `event-delegation` | Searched the stylesheet and found that `digit` is the only class with no CSS rule, then explained why it's there anyway: a hook for JavaScript to find buttons, not a way to style them. | 2026-08-28 |
-| `data-attributes` | `seed` | `behavior-vs-style-hooks` | Named as the professional alternative to a JS-only class. Now has a concrete forcing reason (see `unicode-operator-labels`). **Due:** Section 3. | — |
-| `unicode-operator-labels` | `seed` | `textcontent` | Verified by inspecting the file: `÷` is U+00F7, `×` is U+00D7, `−` is U+2212 — none are `/`, `*`, `-`. Digits are plain ASCII, so `textContent` is safe for them and unsafe for operators. Told, not yet demonstrated. | — |
+| `behavior-vs-style-hooks` | `practicing` | `event-delegation` | Found that `digit` is the only class with no CSS rule and explained why it exists anyway. Later added a second kind of hook — `data-op` — separating the machine-readable value from both the styling classes and the human-readable label. | 2026-08-28 |
+| `data-attributes` | `practicing` | `behavior-vs-style-hooks` | Explained the read side unprompted (`element.dataset.op`), then added `data-op` to all four operator buttons with values matching the function names — `divide`, `multiply`, `subtract`, `add`. | 2026-08-28 |
+| `unicode-operator-labels` | `introduced` | `textcontent` | Verified by inspection: `÷` is U+00F7, `×` is U+00D7, `−` is U+2212 — none match `/`, `*`, `-`. Applied the mitigation (`data-op`) without needing the reason restated, but never re-derived the problem independently. | 2026-08-28 |
 | `silent-failure` | `practicing` | `event-delegation` | Traced the missing-`digit` bug precisely: listener fires, class check rejects, nothing happens, no error. **Retrieved again later in a new context**: after removing the dummy from the HTML, identified unprompted that "js failed to load" and "nothing has been typed yet" now look identical. Third retrieval: identified that `add` stripped of its parameters would return `0` with no error at all, in contrast to `operate`'s loud `TypeError`. | 2026-08-28 |
 
 ## The application logic
@@ -51,8 +52,8 @@ Seeded: 2026-08-28
 | --- | --- | --- | --- | --- |
 | `calculator-state-machine` | `introduced` | `event-listeners`, `first-class-functions` | Stated the routing rule correctly and unprompted: no operator set → the digit belongs to `firstNum`; operator set, `=` not yet pressed → `secondNum`. No code implements it. The gap named: telling "just pressed `=`" apart from "just chained an operator" needs a third piece of state. | 2026-08-28 |
 | `dom-as-state` | `practicing` | `textcontent` | Asked what breaks if the display is the source of truth once rounding is added: answered "you'd read back the rounded number, so the error compounds." Then built it the other way — `currentInput` holds the string, the DOM renders it. | 2026-08-28 |
-| `single-responsibility` | `practicing` | — | Diagnosed the smell unaided: `updateDisplay("")` needed a fake argument because the function "is doing two things, appending and rendering." Then split it into a mutator and a renderer, making the renderer take its value as a parameter rather than reading the global. | 2026-08-28 |
-| `operator-string-to-function` | `seed` | `first-class-functions`, `calculator-state-machine` | The crux of assignment step 6: a button hands over `"+"`, `operate` wants `add`. Named, not solved. | — |
+| `single-responsibility` | `practicing` | — | Diagnosed the `updateDisplay("")` smell unaided — the function "is doing two things" — and split it. Later applied the same fix to a variable rather than a function: `operator` was holding both the chosen operation's *name* and the *function*, so a second `=` crashed; separated into `operator` and a local `operation`. | 2026-08-28 |
+| `operator-string-to-function` | `practicing` | `first-class-functions`, `calculator-state-machine` | Sketched the `switch` shape unprompted in 3.2, wrote all four cases himself. Got stuck on where `return` sends its value — the wrapper-function shape was agent-supplied after that. Then fixed the follow-on bug: `operator` was being reassigned to hold the looked-up function, breaking a second `=` press. | 2026-08-28 |
 
 ## CSS
 
@@ -82,9 +83,9 @@ Seeded: 2026-08-28
 
 | Status | Count |
 | --- | --- |
-| `practicing` | 12 |
+| `practicing` | 16 |
 | `introduced` | 6 |
-| `seed` | 12 |
+| `seed` | 9 |
 | `out-of-scope` | 2 |
 
 Nothing sits at `understood` yet, and nothing should — that status means writing
