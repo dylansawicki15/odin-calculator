@@ -3,6 +3,7 @@ let operator = "";
 let currentInput = "";
 let showingResult = false;
 const infinityError = "Error: infinity";
+const MAX_DECIMALS = 2;
 
 function operate(a, b, operator) {
     return operator(a, b);
@@ -38,6 +39,10 @@ function renderDisplay(value) {
         return;
     }
     display.textContent = value;
+}
+
+function roundForDisplay(value) {
+    return Number(value.toFixed(MAX_DECIMALS));
 }
 
 function getOperation(name) {
@@ -95,7 +100,7 @@ buttons.addEventListener("click", (event) => {
                 return;
             }
             num = result;
-            renderDisplay(num);
+            renderDisplay(roundForDisplay(num));
         } else if (operator === "") {
             num = typedNumber();
         }
@@ -112,7 +117,7 @@ buttons.addEventListener("click", (event) => {
             showError(infinityError);
             return;
         }
-        renderDisplay(result);
+        renderDisplay(roundForDisplay(result));
         currentInput = String(result);
         operator = "";
         showingResult = true;

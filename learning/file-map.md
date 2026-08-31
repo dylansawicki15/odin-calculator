@@ -11,7 +11,7 @@ This ledger is **parked-heavy on purpose**. Every parked line is a lesson alread
 scheduled, not a failure. The CSS file is mostly parked because it was mostly
 unprobed — absence of evidence, recorded honestly.
 
-Last updated: 2026-08-31 (Section 5, task 5.1)
+Last updated: 2026-08-31 (Section 5, task 5.2)
 
 ---
 
@@ -45,8 +45,9 @@ break until it touches the page.
 | `let num / operator / currentInput / showingResult` (lines 1–4) | `known` | Four pieces of state. `showingResult` is the one that can't be derived from the others: `"8"` in `currentInput` means different things depending on whether the user typed it or the calculator produced it. → [[calculator-state-machine]] |
 | `operate`'s third parameter, still named `operator` | `known` | **Reclaimed 2026-08-28.** The one remaining shadow, kept knowingly: deleting this parameter throws a loud `TypeError`, unlike the `a`/`b` case which failed silently. → [[scope-and-shadowing]] |
 | `getOperation(name)` | `known` | Turns a `data-op` string into the function it names. Shell agent-written after the learner got stuck on `return` scope; all four cases learner-written. → [[operator-string-to-function]], [[return-scope]] |
-| `typedNumber()` / `evaluate()` | `known` | Learner-written and both pure. `typedNumber` is the single definition of how typed text becomes a number; `evaluate` is the one place a pending calculation runs, shared by the operator and `=` branches. It **decides only** — returns the number, or `null` when `Number.isFinite` rejects the result — and never renders or mutates. → [[dry-knowledge-duplication]], [[pure-functions]], [[sentinel-return-values]] |
+| `typedNumber()` / `evaluate()` | `known` | Learner-written and both pure. `typedNumber` is the single definition of how typed text becomes a number; `typedNumber` takes **no parameters** — it reads the global `currentInput`, so handing it an argument silently does nothing. `evaluate` is the one place a pending calculation runs, shared by the operator and `=` branches. It **decides only** — returns the number, or `null` when `Number.isFinite` rejects the result — and never renders or mutates. → [[dry-knowledge-duplication]], [[pure-functions]], [[sentinel-return-values]], [[function-arity]] |
 | `showError(message)` + `const infinityError` (line 5) | `known` | Learner-written. `showError` resets state via `clearAll` and paints the message; the message lives in one `const` because both call sites need it. Both callers test `result === null` and `return` — a falsy test would misfire on a legitimate `0`, which the learner predicted before it could bite. → [[truthiness-and-guards]], [[sentinel-return-values]] |
+| `roundForDisplay(value)` + `const MAX_DECIMALS` (line 6) | `known` | Learner-written. Rounds a result **for painting only** — both call sites wrap the argument to `renderDisplay`, while `num` and `currentInput` keep full precision, so `1 ÷ 3 = × 3 =` still gives `1`. `Number(...)` wraps `toFixed` because `toFixed` returns a string. Deliberately *not* inside `renderDisplay`, which also receives strings. Fixes decimal overflow only — a 16-digit integer result still overflows. → [[rounding-floats]], [[dom-as-state]], [[function-arity]] |
 
 ### `styles.css` — presentation, and the largest file here
 108 lines. Mostly parked, and that is a statement about evidence, not quality —
@@ -58,7 +59,7 @@ almost none of it was probed.
 | `.equals { grid-row: span 2 }`, `.span-two`, `.span-three` (92–108) | `parked` | The spanning rules that make the layout non-rectangular. Unprobed. **Due:** with the grid reclaim. → [[css-grid]] |
 | `* { box-sizing: border-box }` (1–5) | `known` | **Reclaimed 2026-08-28.** Learner's own addition, not inherited. Makes `width` include padding and border, which is what keeps the 400px calculator actually 400px. → [[box-sizing]] |
 | `body`, `.container` centering (7–23) | `parked` | Flexbox centering. Unprobed. **Due:** Section 2 reclaim. → [[flexbox-centering]] |
-| `.display` flex + `overflow: hidden` (36–49) | `parked` | Right-aligns the number and hides overflow — which is *why* long decimals must be rounded rather than allowed to spill. **Due:** Section 4 (rounding). → [[flexbox-centering]] |
+| `.display` flex + `overflow: hidden` (36–49) | `parked` | Right-aligns the number and hides overflow — which is *why* long decimals must be rounded rather than allowed to spill. **Due:** next — task 5.3. → [[flexbox-centering]] |
 | `.btn:hover` / `:active`, `.operator`, `.clear`, `.equals` colors (59–100) | `parked` | Pseudo-class states and how later rules override `.btn`. Unprobed. **Due:** low priority — cosmetic, no logic depends on it. → [[css-specificity]] |
 
 ### `README.md` — one line
@@ -71,8 +72,8 @@ portfolio. Not blocking any code. → [[project-documentation]]
 
 ### `.git/` — `generated`
 Git's own database: every commit, branch, and object. Never hand-edit; it is
-managed entirely through `git` commands. Currently 7 commits on `main`, HEAD
-`31711ae`. → [[git-basics]]
+managed entirely through `git` commands. Currently 15 commits on `main`, HEAD
+`a2d6b9d`. → [[git-basics]]
 
 ### `learning/` — this method's files
 `project.md` (triage), `file-map.md` (this file), `knowledge-graph.md` (what is
