@@ -2,6 +2,7 @@ let num = 0;
 let operator = "";
 let currentInput = "";
 let showingResult = false;
+const infinityError = "Error: infinity";
 
 function operate(a, b, operator) {
     return operator(a, b);
@@ -41,7 +42,6 @@ function renderDisplay(value) {
 
 function getOperation(name) {
     switch (name) {
-        // TODO(you): one case per operator, each returning the function itself
         case "add": return add;
         case "subtract": return subtract;
         case "multiply": return multiply;
@@ -52,7 +52,14 @@ function getOperation(name) {
 const typedNumber = () => Number(currentInput);
 
 function evaluate() {
-    return operate(num, typedNumber(), getOperation(operator));
+    const result = operate(num, typedNumber(), getOperation(operator));
+    if (!Number.isFinite(result)) return null; 
+    return result;
+}
+
+function showError(message) {
+    clearAll();
+    renderDisplay(message);
 }
 
 function clearAll() {
@@ -82,7 +89,12 @@ buttons.addEventListener("click", (event) => {
         showingResult = false;
 
         if (operator !== "" && currentInput !== "") {
-            num = evaluate();
+            const result = evaluate();
+            if (result === null) {
+                showError(infinityError);
+                return;
+            }
+            num = result;
             renderDisplay(num);
         } else if (operator === "") {
             num = typedNumber();
@@ -96,6 +108,10 @@ buttons.addEventListener("click", (event) => {
     if (event.target.matches(".equals")) {
         if (operator === "") return;
         const result = evaluate();
+        if (result === null) {
+            showError(infinityError);
+            return;
+        }
         renderDisplay(result);
         currentInput = String(result);
         operator = "";

@@ -11,7 +11,7 @@ This ledger is **parked-heavy on purpose**. Every parked line is a lesson alread
 scheduled, not a failure. The CSS file is mostly parked because it was mostly
 unprobed — absence of evidence, recorded honestly.
 
-Last updated: 2026-08-28 (Section 1, task 1.1)
+Last updated: 2026-08-31 (Section 5, task 5.1)
 
 ---
 
@@ -45,7 +45,8 @@ break until it touches the page.
 | `let num / operator / currentInput / showingResult` (lines 1–4) | `known` | Four pieces of state. `showingResult` is the one that can't be derived from the others: `"8"` in `currentInput` means different things depending on whether the user typed it or the calculator produced it. → [[calculator-state-machine]] |
 | `operate`'s third parameter, still named `operator` | `known` | **Reclaimed 2026-08-28.** The one remaining shadow, kept knowingly: deleting this parameter throws a loud `TypeError`, unlike the `a`/`b` case which failed silently. → [[scope-and-shadowing]] |
 | `getOperation(name)` | `known` | Turns a `data-op` string into the function it names. Shell agent-written after the learner got stuck on `return` scope; all four cases learner-written. → [[operator-string-to-function]], [[return-scope]] |
-| `typedNumber()` / `evaluate()` | `known` | Learner-written and both pure. `typedNumber` is the single definition of how typed text becomes a number; `evaluate` is the one place a pending calculation runs, shared by the operator and `=` branches. → [[dry-knowledge-duplication]], [[pure-functions]] |
+| `typedNumber()` / `evaluate()` | `known` | Learner-written and both pure. `typedNumber` is the single definition of how typed text becomes a number; `evaluate` is the one place a pending calculation runs, shared by the operator and `=` branches. It **decides only** — returns the number, or `null` when `Number.isFinite` rejects the result — and never renders or mutates. → [[dry-knowledge-duplication]], [[pure-functions]], [[sentinel-return-values]] |
+| `showError(message)` + `const infinityError` (line 5) | `known` | Learner-written. `showError` resets state via `clearAll` and paints the message; the message lives in one `const` because both call sites need it. Both callers test `result === null` and `return` — a falsy test would misfire on a legitimate `0`, which the learner predicted before it could bite. → [[truthiness-and-guards]], [[sentinel-return-values]] |
 
 ### `styles.css` — presentation, and the largest file here
 108 lines. Mostly parked, and that is a statement about evidence, not quality —

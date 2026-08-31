@@ -162,6 +162,16 @@ mess is *why* the rounding gotcha exists.
 *Receipts:* assignment step 7, gotchas 2, 3, 4, and 5; `flexbox-centering` and
 `rounding-floats` at `seed`.
 
+### Tasks
+
+- [x] **5.1** Divide by zero shows a snarky message instead of `Infinity`, and the calculator stays usable afterwards.
+- [ ] **5.2** Long decimals get rounded so they can't overflow the display.
+- [ ] **5.3** Reclaim `.display` — its flex alignment and `overflow: hidden`, which is *why* rounding is required.
+
+> **Scoped down 2026-08-28.** Two of this section's four gotchas were already satisfied
+> by earlier work: `=` pressed early is caught by the `operator === ""` guard (Section 3),
+> and `clearAll` resets all four state variables (Sections 2 and 4). Not re-done here.
+
 ---
 
 ## Section 6 — The decimal point
