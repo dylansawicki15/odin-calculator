@@ -46,7 +46,7 @@ Seeded: 2026-08-28
 | `event-listeners` | `practicing` | `dom-selection` | The `addEventListener` call and the two `querySelector` lines were agent-written; the handler body is the learner's. Verified in the browser: clicking `7` logged `7`. | 2026-08-28 |
 | `event-delegation` | `practicing` | `event-listeners` | Predicted correctly that a click in the 10px `gap` reports `.buttons` as `event.target`, reasoning that gaps belong to the container. Then wrote the guard `if (!event.target.matches(".digit")) return;` and confirmed gap clicks log nothing. | 2026-08-28 |
 | `keyboard-events` | `seed` | `event-listeners` | Extra credit. Not discussed. | — |
-| `behavior-vs-style-hooks` | `practicing` | `event-delegation` | Found that `digit` is the only class with no CSS rule and explained why it exists anyway. Later added a second kind of hook — `data-op` — separating the machine-readable value from both the styling classes and the human-readable label. | 2026-08-28 |
+| `behavior-vs-style-hooks` | `practicing` | `event-delegation` | Found that `digit` is the only class with no CSS rule and explained why it exists anyway. Later added a second kind of hook — `data-op` — separating the machine-readable value from both the styling classes and the human-readable label. **2026-08-31:** gave the new `.` button `class="btn digit point"` and predicted the consequence before running it — "it'll append the dot to currentInput like any other digit" — correctly reading `digit` as the behaviour hook that routes it through existing machinery. `point` was added as a hook with no CSS rule and no reader yet. | 2026-08-31 |
 | `data-attributes` | `practicing` | `behavior-vs-style-hooks` | Explained the read side unprompted (`element.dataset.op`), then added `data-op` to all four operator buttons with values matching the function names — `divide`, `multiply`, `subtract`, `add`. | 2026-08-28 |
 | `unicode-operator-labels` | `introduced` | `textcontent` | Verified by inspection: `÷` is U+00F7, `×` is U+00D7, `−` is U+2212 — none match `/`, `*`, `-`. Applied the mitigation (`data-op`) without needing the reason restated, but never re-derived the problem independently. | 2026-08-28 |
 | `silent-failure` | `practicing` | `event-delegation` | Traced the missing-`digit` bug precisely: listener fires, class check rejects, nothing happens, no error. **Retrieved again later in a new context**: after removing the dummy from the HTML, identified unprompted that "js failed to load" and "nothing has been typed yet" now look identical. Third retrieval: identified that `add` stripped of its parameters would return `0` with no error at all, in contrast to `operate`'s loud `TypeError`. Fourth retrieval 2026-08-31: `typedNumber("8.00")` discards its argument and returns `Number(currentInput)` — no error, wrong number on screen. | 2026-08-28 |
@@ -64,10 +64,12 @@ Seeded: 2026-08-28
 
 | Concept | Status | Depends on | Evidence | Date |
 | --- | --- | --- | --- | --- |
-| `css-grid` | `practicing` | — | **Reclaimed 2026-08-28.** Rebuilt the model out loud, then broke `repeat(4, 1fr)` to `repeat(4, 100px)`. Predicted `.calculator` would widen; it did not — the buttons overflowed `.buttons` instead, which is what actually happened and what got explained. Also explained implicit row creation: grid wraps every four items onto a new row without those rows being declared. | 2026-08-28 |
-| `flex-axis` | `introduced` | — | **Wrong prediction, corrected.** Expected `flex: 1` on `.buttons` to widen `.calculator`. It doesn't: `.calculator` is `flex-direction: column`, so `flex: 1` grows height only, and a flex item never resizes its parent. Not yet re-tested. | 2026-08-28 |
+| `css-grid` | `practicing` | — | **Reclaimed 2026-08-28.** Rebuilt the model out loud, then broke `repeat(4, 1fr)` to `repeat(4, 100px)`. Predicted `.calculator` would widen; it did not — the buttons overflowed `.buttons` instead, which is what actually happened and what got explained. Also explained implicit row creation: grid wraps every four items onto a new row without those rows being declared. **2026-08-31:** asked where a `.` button could go in a full 4-column keypad, answered with the trade unaided — `0` drops from `span-three` to `span-two` and `.` takes the freed column — and made the edit before being asked to. Named `=` as the occupant of the fourth cell; that a single button written once in row 4 *fills* a cell in row 5 was stated by the agent, not derived. | 2026-08-31 |
+| `flex-axis` | `practicing` | — | **Wrong prediction 2026-08-28, corrected:** expected `flex: 1` on `.buttons` to widen `.calculator`; it grows height only, because `.calculator` is `flex-direction: column`. **2026-08-31:** stated the general rule unaided — `justify-content` is always the main axis, `align-items` always the cross axis, and `flex-direction` decides which physical direction each of those is — and applied it correctly to `.display`. The specific `flex: 1` sizing case was *not* re-run; the axis rule is what got re-tested. | 2026-08-31 |
 | `box-sizing` | `practicing` | — | **Reclaimed 2026-08-28.** Explained the model unprompted and completely — padding counts inside the declared width, so `400px` with `20px` padding leaves `360px` of content — including the rationale ("so you don't have to do weird calculations in your head"). Then derived the `content-box` rendering exactly — 440 × 640 — from the model alone, without running the experiment. Learner's own addition to the stylesheet, not inherited. | 2026-08-28 |
-| `flexbox-centering` | `seed` | — | Used in `body`, `.container`, and `.display`. Unprobed. | — |
+| `flexbox-centering` | `practicing` | `flex-axis` | **Reclaimed 2026-08-31.** Derived the whole `.display` block from the *absence* of a `flex-direction`: default is `row`, so the main axis is horizontal, so `justify-content: flex-end` is what pins the number right and `align-items: flex-end` is what drops it to the bottom. Then applied it predictively — called which end of an overflowing number survives the clip (the tail) and why (the right edge is pinned, so growth runs backwards). | 2026-08-31 |
+| `overflow-vs-layout` | `practicing` | `flexbox-centering` | **Introduced 2026-08-31.** Predicted both halves of removing `overflow: hidden` before running it: the layout would not move, and the digits would paint outside the box over the grey calculator body. Both confirmed by his own run. The distinction — overflow is a painting problem, not a sizing one; nothing reflows to accommodate it — was his own phrasing. | 2026-08-31 |
+| `line-breaking-opportunities` | `introduced` | — | Answered unaided why sixteen digits hung off the side instead of wrapping into a 90px-tall box: "there's no spaces so it cant break the line anywhere." The flexbox layer underneath — flex items refuse to shrink below min-content, which for an unbreakable string is the whole string, hence `min-width: 0` — was **explained to him, not derived**. No code written against it. | 2026-08-31 |
 | `css-specificity` | `seed` | — | `.operator` and `.clear` override `.btn`; `:hover`/`:active` layer on top. Unprobed, cosmetic. | — |
 | `html-button-semantics` | `seed` | — | Why `<button>` and not `<div>` — focusability, keyboard activation. Becomes load-bearing at the keyboard-support stage. | — |
 
@@ -84,13 +86,13 @@ Seeded: 2026-08-28
 
 ---
 
-## Summary (recomputed 2026-08-31, after task 5.2)
+## Summary (recomputed 2026-08-31, unchanged by tasks 6.1–6.2 — evidence added, no status moved)
 
 | Status | Count |
 | --- | --- |
-| `practicing` | 22 |
+| `practicing` | 25 |
 | `introduced` | 6 |
-| `seed` | 8 |
+| `seed` | 7 |
 | `out-of-scope` | 2 |
 
 Nothing sits at `understood` yet, and nothing should — that status means writing

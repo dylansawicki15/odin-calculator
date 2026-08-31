@@ -11,7 +11,7 @@ This ledger is **parked-heavy on purpose**. Every parked line is a lesson alread
 scheduled, not a failure. The CSS file is mostly parked because it was mostly
 unprobed — absence of evidence, recorded honestly.
 
-Last updated: 2026-08-31 (Section 5, task 5.2)
+Last updated: 2026-08-31 (Section 6, tasks 6.1–6.2)
 
 ---
 
@@ -26,8 +26,9 @@ use to find things. Split by region because the regions differ in status.
 | `<script defer src="script.js">` (line 7) | `known` | Explained the mechanism *and* predicted that `querySelector` would return `null` if removed. → [[script-loading-defer]] |
 | `class="digit"` on 7,8,9,4,5,6,1,2,3 | `known` | Own uncommitted work; explained the plan (listen for clicks, branch on the class). → [[event-delegation]] |
 | `<div class="display"></div>` (line 14) | `known` | **Emptied 2026-08-28, own edit.** Was dummy content (`1234.56`); now blank, matching the deliberate blank-on-load decision. Tradeoff identified unprompted: a failed script and an untouched calculator now look the same. → [[textcontent]], [[silent-failure]] |
+| `<button class="btn digit point">.</button>` (line 37) | `known` | **Own edit 2026-08-31.** Carries `digit`, so the existing handler appends it with no new code — `appendDigit` concatenates onto a string buffer and is indifferent to the character. `point` is a second hook with no CSS rule and no reader yet; it becomes the selection handle in 6.3 and the styling handle in 6.4. → [[behavior-vs-style-hooks]], [[css-grid]] |
 | The button markup inside `.calculator` | `known` | **Reclaimed 2026-08-28.** Accounted for all seven classes and identified `digit` as the only behaviour hook among six style hooks. Operator buttons since gained `data-op` values (`add`/`subtract`/`multiply`/`divide`) so code never has to read the typographic labels. → [[behavior-vs-style-hooks]], [[data-attributes]], [[unicode-operator-labels]] |
-| `<button class="btn digit span-three">0</button>` (line 36) | `known` | **Own edit, uncommitted, found 2026-08-28.** Was missing the `digit` class its nine siblings have. Separately, traced the resulting silent failure correctly in conversation. Timing of the edit relative to that reasoning is unknown and not claimed. → [[silent-failure]] |
+| `<button class="btn digit span-two">0</button>` (line 36) | `known` | **Own edit, uncommitted, found 2026-08-28.** Was missing the `digit` class its nine siblings have. Separately, traced the resulting silent failure correctly in conversation. Timing of the edit relative to that reasoning is unknown and not claimed. **Narrowed to `span-two` 2026-08-31** to free a column for `.`. → [[silent-failure]] |
 
 ### `script.js` — the math, and nothing else
 The only file with no DOM code in it. A pure library of four operators plus a
@@ -50,16 +51,16 @@ break until it touches the page.
 | `roundForDisplay(value)` + `const MAX_DECIMALS` (line 6) | `known` | Learner-written. Rounds a result **for painting only** — both call sites wrap the argument to `renderDisplay`, while `num` and `currentInput` keep full precision, so `1 ÷ 3 = × 3 =` still gives `1`. `Number(...)` wraps `toFixed` because `toFixed` returns a string. Deliberately *not* inside `renderDisplay`, which also receives strings. Fixes decimal overflow only — a 16-digit integer result still overflows. → [[rounding-floats]], [[dom-as-state]], [[function-arity]] |
 
 ### `styles.css` — presentation, and the largest file here
-108 lines. Mostly parked, and that is a statement about evidence, not quality —
-almost none of it was probed.
+108 lines. Half reclaimed as of 2026-08-31. What stays parked is cosmetic or
+not yet load-bearing, and each parked line names the task that comes for it.
 
 | Region | Status | Why |
 | --- | --- | --- |
 | `.buttons { display: grid; grid-template-columns: repeat(4, 1fr) }` (51–57) | `known` | **Reclaimed 2026-08-28.** Broke it to `100px` tracks, observed and explained the overflow, then explained implicit row creation. → [[css-grid]], [[flex-axis]] |
-| `.equals { grid-row: span 2 }`, `.span-two`, `.span-three` (92–108) | `parked` | The spanning rules that make the layout non-rectangular. Unprobed. **Due:** with the grid reclaim. → [[css-grid]] |
+| `.equals { grid-row: span 2 }`, `.span-two`, `.span-three` (92–108) | `parked` | The spanning rules that make the layout non-rectangular. `span-three` → `span-two` was applied correctly on 2026-08-31 to free a column, but `grid-row: span 2` on `.equals` — the reason row 5 has four cells and three buttons — was explained rather than derived. Stays parked. **Due:** Section 7, where an eleventh button has no slack to take. → [[css-grid]] |
 | `* { box-sizing: border-box }` (1–5) | `known` | **Reclaimed 2026-08-28.** Learner's own addition, not inherited. Makes `width` include padding and border, which is what keeps the 400px calculator actually 400px. → [[box-sizing]] |
-| `body`, `.container` centering (7–23) | `parked` | Flexbox centering. Unprobed. **Due:** Section 2 reclaim. → [[flexbox-centering]] |
-| `.display` flex + `overflow: hidden` (36–49) | `parked` | Right-aligns the number and hides overflow — which is *why* long decimals must be rounded rather than allowed to spill. **Due:** next — task 5.3. → [[flexbox-centering]] |
+| `body`, `.container` centering (7–23) | `parked` | The same three properties reclaimed on `.display`, with `center` instead of `flex-end`. Not probed on these two selectors specifically, so it stays parked — but the concept behind it now sits at `practicing`, so this is a short walk, not a lesson. **Due:** opportunistically, whenever the page layout next changes. → [[flexbox-centering]] |
+| `.display` flex + `overflow: hidden` (36–49) | `known` | **Reclaimed 2026-08-31.** Default `flex-direction: row` makes the main axis horizontal, so `justify-content: flex-end` pins the number right and `align-items: flex-end` drops it to the bottom. `overflow: hidden` clips what doesn't fit — off the **left**, because the right edge is pinned, so a too-long number silently shows its tail and hides its head. Removing it changes no layout at all; the digits just paint over the grey. → [[flexbox-centering]], [[flex-axis]], [[overflow-vs-layout]], [[line-breaking-opportunities]] |
 | `.btn:hover` / `:active`, `.operator`, `.clear`, `.equals` colors (59–100) | `parked` | Pseudo-class states and how later rules override `.btn`. Unprobed. **Due:** low priority — cosmetic, no logic depends on it. → [[css-specificity]] |
 
 ### `README.md` — one line
@@ -72,8 +73,8 @@ portfolio. Not blocking any code. → [[project-documentation]]
 
 ### `.git/` — `generated`
 Git's own database: every commit, branch, and object. Never hand-edit; it is
-managed entirely through `git` commands. Currently 15 commits on `main`, HEAD
-`a2d6b9d`. → [[git-basics]]
+managed entirely through `git` commands. Currently 16 commits on `main`, HEAD
+`cb591a3`. → [[git-basics]]
 
 ### `learning/` — this method's files
 `project.md` (triage), `file-map.md` (this file), `knowledge-graph.md` (what is
