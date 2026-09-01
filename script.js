@@ -30,6 +30,7 @@ const buttons = document.querySelector(".buttons");
 const point = document.querySelector(".point");
 
 function appendDigit(digit) {
+    if (currentInput === "" && digit === ".") currentInput = "0";
     currentInput += digit;
     syncPointButton();
     renderDisplay(currentInput);
