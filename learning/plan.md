@@ -244,6 +244,27 @@ for `=`.
 *Receipts:* extra credit item 3; `html-button-semantics` and `keyboard-events` at
 `seed`.
 
+### Tasks
+
+- [x] **8.1** Reclaim `<button>` semantics — say what `<button>` gives you that a `<div>` with a click listener wouldn't, then swap one and find out.
+- [ ] **8.2** A `keydown` listener reports which key was pressed.
+- [ ] **8.3** Digits and `.` typed on the keyboard reach the display.
+
+> **Open decision, raised 2026-09-01 during 8.1.** `infinityError` was renamed to
+> `defaultErrorMsg` and its text cut from `"Error: infinity"` to `"Error"`, anticipating
+> that keyboard input could put a non-numeric string in `currentInput`. That door is not
+> open yet: today `Number.isFinite` has exactly one reachable rejection, so the specific
+> message is accurate and the generic one discards Section 5's deliverable. **Decide in
+> 8.3** whether the keyboard is allowed to open it.
+>
+> **Settled the same day: reverted to `"Error: infinity"`.** The generic message hedged against
+> a failure that cannot currently occur, at the cost of the one that can. 8.3 now carries the
+> real question — route keys through the existing machinery and the door stays shut; open it
+> deliberately and the honest fix is making `evaluate` report *which* failure, not blurring the
+> one it can already name.
+- [ ] **8.4** Operators, Enter, Escape and Backspace all work from the keyboard.
+- [ ] **8.5** The focus bug: click a button with the mouse, then press Enter, and it fires again. Find the cause and fix it.
+
 ---
 
 ## Section 9 — Ship it

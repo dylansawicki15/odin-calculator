@@ -35,7 +35,7 @@ Seeded: 2026-08-28
 | `rounding-floats` | `practicing` | `calculator-state-machine` | **Reclaimed 2026-08-31.** Predicted `1 ÷ 3 =` exactly — `0.3333333333333333`, clipped by `overflow: hidden`. Decided unprompted that rounding belongs on the paint and not in state, and that it must not go inside `renderDisplay` because that function also receives strings, where `toFixed` would throw. Wrote `roundForDisplay` and both call sites; chose `MAX_DECIMALS = 2` himself. Missed the chained case — predicted `1 ÷ 3 = × 3 =` shows `0.99` — then repaired it in one line: "currentInput held the unrounded result, not what was displayed". | 2026-08-31 |
 | `function-arity` | `practicing` | `function-declarations` | **Introduced 2026-08-31.** Called `typedNumber(value.toFixed(MAX_DECIMALS))` on a zero-parameter arrow function, then predicted the exact consequence unaided — `3 + 5 =` paints `5`, because JavaScript discards the extra argument and the body reads the global `currentInput` instead. | 2026-08-31 |
 | `derived-state` | `practicing` | `calculator-state-machine` | **Introduced 2026-09-01.** Wrote `syncPointButton()` — the `.` button's enabled-ness computed from `currentInput` and `showingResult` rather than stored as its own variable — and placed all five call sites. Then found the ordering defect unaided after a failed prediction: "syncPointButton runs before showingResult is set to true", i.e. a function that derives from state must run after every piece of state it reads has settled. **Later the same day:** added the sixth `syncPointButton()` call site to the new backspace branch from a hint that said only "one more call belongs here" — then named the failing sequence, that deleting the `.` out of `3.14` has to re-enable the button. **Third pass, task 7.4:** placed `showingResult = false` *above* `syncPointButton()` in the backspace branch on the first try, then named the exact defect the wrong order would cause **without running it** — `1 ÷ 3 =`, `⌫`, `.` yields `0.3.`, because the sync would still read `showingResult` as `true` and leave the point button enabled. | 2026-09-01 |
-| `guards-for-impossible-states` | `practicing` | `truthiness-and-guards` | Wrote `if (!value.isFinite(x)) return value;` in `roundForDisplay`, commented "in theory should never be not a number, but why not just have this condition here anyway" — defensive code for a state `evaluate()` already rules out, and itself broken two ways (`x` undeclared, `isFinite` not a method on numbers). Deleted it when asked where the guarantee actually lives, but never stated the reason. **2026-09-01, the reason arrives unprompted:** offered the choice between preventing a lone `.` and widening the error message to describe it, chose prevention — "no point describing a state that shouldn't exist" — then wrote the guard that removes the state rather than the branch that would have reported it. | 2026-09-01 |
+| `guards-for-impossible-states` | `practicing` | `truthiness-and-guards` | Wrote `if (!value.isFinite(x)) return value;` in `roundForDisplay`, commented "in theory should never be not a number, but why not just have this condition here anyway" — defensive code for a state `evaluate()` already rules out, and itself broken two ways (`x` undeclared, `isFinite` not a method on numbers). Deleted it when asked where the guarantee actually lives, but never stated the reason. **2026-09-01, the reason arrives unprompted:** offered the choice between preventing a lone `.` and widening the error message to describe it, chose prevention — "no point describing a state that shouldn't exist" — then wrote the guard that removes the state rather than the branch that would have reported it. **Later the same day:** shown `3.1.4` producing `Error: infinity` after the `.` button was demoted to a `<div>`, identified unaided that the `appendDigit` guard covers exactly one path to a non-numeric buffer and that an HTML attribute was holding the rest — an invariant enforced outside the code that claims to enforce it. | 2026-09-01 |
 
 ## JavaScript — the browser (DOM)
 
@@ -72,7 +72,7 @@ Seeded: 2026-08-28
 | `overflow-vs-layout` | `practicing` | `flexbox-centering` | **Introduced 2026-08-31.** Predicted both halves of removing `overflow: hidden` before running it: the layout would not move, and the digits would paint outside the box over the grey calculator body. Both confirmed by his own run. The distinction — overflow is a painting problem, not a sizing one; nothing reflows to accommodate it — was his own phrasing. | 2026-08-31 |
 | `line-breaking-opportunities` | `introduced` | — | Answered unaided why sixteen digits hung off the side instead of wrapping into a 90px-tall box: "there's no spaces so it cant break the line anywhere." The flexbox layer underneath — flex items refuse to shrink below min-content, which for an unbreakable string is the whole string, hence `min-width: 0` — was **explained to him, not derived**. No code written against it. | 2026-08-31 |
 | `css-specificity` | `practicing` | — | **2026-09-01.** Said `.operator` beats `.btn` on **source order**, not specificity — both are one class, so they tie. Wrote `.btn:disabled` unaided; `cursor: none` was the one miss, corrected to `not-allowed` after seeing that `none` hides the pointer entirely. Then predicted both halves of the break correctly: the rule stayed grey when moved above `.btn` ("specificity beats order"), and lost the tie to `.btn:hover` on position — confirmed in the browser. | 2026-09-01 |
-| `html-button-semantics` | `seed` | — | Why `<button>` and not `<div>` — focusability, keyboard activation. Becomes load-bearing at the keyboard-support stage. | — |
+| `html-button-semantics` | `practicing` | — | **Reclaimed 2026-09-01.** Named focus, Enter/Space activation and `disabled` unaided (the accessibility tree was added by the agent). Predicted the exact consequence of swapping the `.` button to a `<div>` — "disabled stops working, you could type 3.1.4" — and confirmed it. Then named the boundary of his own 6.5 fix without help: "the guard only stopped a lone dot, disabled stopped the rest", i.e. part of this app's input validation is enforced by the browser's button semantics rather than by its JavaScript. | 2026-09-01 |
 
 ## Engineering practice
 
@@ -87,13 +87,13 @@ Seeded: 2026-08-28
 
 ---
 
-## Summary (recomputed 2026-09-01, after task 7.3)
+## Summary (recomputed 2026-09-01, after task 8.1)
 
 | Status | Count |
 | --- | --- |
-| `practicing` | 30 |
+| `practicing` | 31 |
 | `introduced` | 4 |
-| `seed` | 5 |
+| `seed` | 4 |
 | `out-of-scope` | 2 |
 
 Nothing sits at `understood` yet, and nothing should — that status means writing
