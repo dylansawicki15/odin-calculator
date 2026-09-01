@@ -144,8 +144,15 @@ buttons.addEventListener("click", (event) => {
     }
 });
 
+const keyToButton = new Map();
+for (const button of document.querySelectorAll("[data-key]")) {
+    keyToButton.set(button.dataset.key, button);
+}
+
 document.addEventListener("keydown", (event) => {
-    console.log(event.key);
+    const button = keyToButton.get(event.key);
+    if (!button) return;
+    button.click();
 });
 
 renderDisplay(currentInput);

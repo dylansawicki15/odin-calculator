@@ -248,7 +248,7 @@ for `=`.
 
 - [x] **8.1** Reclaim `<button>` semantics — say what `<button>` gives you that a `<div>` with a click listener wouldn't, then swap one and find out.
 - [x] **8.2** A `keydown` listener reports which key was pressed.
-- [ ] **8.3** Digits and `.` typed on the keyboard reach the display.
+- [x] **8.3** Digits and `.` typed on the keyboard reach the display.
 
 > **Open decision, raised 2026-09-01 during 8.1.** `infinityError` was renamed to
 > `defaultErrorMsg` and its text cut from `"Error: infinity"` to `"Error"`, anticipating
@@ -262,6 +262,10 @@ for `=`.
 > real question — route keys through the existing machinery and the door stays shut; open it
 > deliberately and the honest fix is making `evaluate` report *which* failure, not blurring the
 > one it can already name.
+>
+> **Closed in 8.3.** Keys route through `keyToButton` → `.click()`, so every keystroke enters through
+> the click handler that already validates. Nothing can put a non-numeric string in `currentInput`,
+> the door stays shut, and `"Error: infinity"` remains accurate.
 - [ ] **8.4** Operators, Enter, Escape and Backspace all work from the keyboard.
 - [ ] **8.5** The focus bug: click a button with the mouse, then press Enter, and it fires again. Find the cause and fix it.
 
