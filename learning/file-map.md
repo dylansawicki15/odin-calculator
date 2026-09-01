@@ -11,7 +11,7 @@ This ledger is **parked-heavy on purpose**. Every parked line is a lesson alread
 scheduled, not a failure. The CSS file is mostly parked because it was mostly
 unprobed — absence of evidence, recorded honestly.
 
-Last updated: 2026-09-01 (Section 6, task 6.3)
+Last updated: 2026-09-01 (Section 6 complete)
 
 ---
 
@@ -58,7 +58,7 @@ not yet load-bearing, and each parked line names the task that comes for it.
 | Region | Status | Why |
 | --- | --- | --- |
 | `.buttons { display: grid; grid-template-columns: repeat(4, 1fr) }` (51–57) | `known` | **Reclaimed 2026-08-28.** Broke it to `100px` tracks, observed and explained the overflow, then explained implicit row creation. → [[css-grid]], [[flex-axis]] |
-| `.equals { grid-row: span 2 }`, `.span-two`, `.span-three` (98–114) | `parked` | The spanning rules that make the layout non-rectangular. `span-three` → `span-two` was applied correctly on 2026-08-31 to free a column, but `grid-row: span 2` on `.equals` — the reason row 5 has four cells and three buttons — was explained rather than derived. Stays parked. **Due:** Section 7, where an eleventh button has no slack to take. → [[css-grid]] |
+| `.equals { grid-row: span 2 }`, `.span-two`, `.span-three` (98–114) | `known` | **Reclaimed 2026-09-01.** The three rules that make the layout non-rectangular: 17 buttons fill a 4×5 grid because `Clear` and `0` each take two columns and `=` takes two rows. `span 2` is a **size, not a position** — `=` is placed in row 4 col 4 by auto-placement and grows downward, which is why row 5 col 4 is occupied before `0` and `.` are placed. **`.span-three` matches nothing** — `0` carried it until 6.1; dead rule, due for deletion with 7.2's span rearrangement. → [[css-grid]] |
 | `* { box-sizing: border-box }` (1–5) | `known` | **Reclaimed 2026-08-28.** Learner's own addition, not inherited. Makes `width` include padding and border, which is what keeps the 400px calculator actually 400px. → [[box-sizing]] |
 | `body`, `.container` centering (7–23) | `parked` | The same three properties reclaimed on `.display`, with `center` instead of `flex-end`. Not probed on these two selectors specifically, so it stays parked — but the concept behind it now sits at `practicing`, so this is a short walk, not a lesson. **Due:** opportunistically, whenever the page layout next changes. → [[flexbox-centering]] |
 | `.display` flex + `overflow: hidden` (36–49) | `known` | **Reclaimed 2026-08-31.** Default `flex-direction: row` makes the main axis horizontal, so `justify-content: flex-end` pins the number right and `align-items: flex-end` drops it to the bottom. `overflow: hidden` clips what doesn't fit — off the **left**, because the right edge is pinned, so a too-long number silently shows its tail and hides its head. Removing it changes no layout at all; the digits just paint over the grey. → [[flexbox-centering]], [[flex-axis]], [[overflow-vs-layout]], [[line-breaking-opportunities]] |
