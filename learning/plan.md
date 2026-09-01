@@ -228,7 +228,7 @@ the spanning rules.
 - [x] **7.1** Reclaim the spanning rules — map every cell of the 4-column grid, find the rule that no longer matches anything, break `grid-row: span 2` on purpose and predict where each button lands.
 - [x] **7.2** Make room for backspace. The grid is completely full, so a span has to give up a cell before the button can exist.
 - [x] **7.3** Backspace deletes the last character from the typing buffer and the display updates.
-- [ ] **7.4** Backspace survives the awkward states — an empty buffer, and a displayed result that was never typed.
+- [x] **7.4** Backspace survives the awkward states — an empty buffer, and a displayed result that was never typed.
 
 ---
 

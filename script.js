@@ -101,6 +101,7 @@ buttons.addEventListener("click", (event) => {
 
     if (event.target.matches(".backspace")) {
         currentInput = currentInput.slice(0, -1);
+        showingResult = false;
         syncPointButton(); 
         renderDisplay(currentInput);
         return;
