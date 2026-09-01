@@ -144,4 +144,8 @@ buttons.addEventListener("click", (event) => {
     }
 });
 
+document.addEventListener("keydown", (event) => {
+    console.log(event.key);
+});
+
 renderDisplay(currentInput);

@@ -46,7 +46,7 @@ Seeded: 2026-08-28
 | `textcontent` | `practicing` | `dom-selection` | Explained the append-and-clear plan in conversation, then wrote `console.log(event.target.textContent)` and confirmed it printed `7`. | 2026-08-28 |
 | `event-listeners` | `practicing` | `dom-selection` | The `addEventListener` call and the two `querySelector` lines were agent-written; the handler body is the learner's. Verified in the browser: clicking `7` logged `7`. | 2026-08-28 |
 | `event-delegation` | `practicing` | `event-listeners` | Predicted correctly that a click in the 10px `gap` reports `.buttons` as `event.target`, reasoning that gaps belong to the container. Then wrote the guard `if (!event.target.matches(".digit")) return;` and confirmed gap clicks log nothing. | 2026-08-28 |
-| `keyboard-events` | `seed` | `event-listeners` | Extra credit. Not discussed. | — |
+| `keyboard-events` | `practicing` | `event-listeners` | **2026-09-01.** Named `document` as the listener target and gave the reason unaided — the `.buttons` container has no `tabindex` so it is never focused, while the buttons themselves are focusable. Wrote `console.log(event.key)` from a description of the two candidate properties, without either being named. Predicted the literal strings `Enter` / `Escape` / `Backspace` / `+` correctly, then observed key repeat on hold (`7777777`) and that modifier keys fire keydowns of their own. | 2026-09-01 |
 | `behavior-vs-style-hooks` | `practicing` | `event-delegation` | Found that `digit` is the only class with no CSS rule and explained why it exists anyway. Later added a second kind of hook — `data-op` — separating the machine-readable value from both the styling classes and the human-readable label. **2026-08-31:** gave the new `.` button `class="btn digit point"` and predicted the consequence before running it — "it'll append the dot to currentInput like any other digit" — correctly reading `digit` as the behaviour hook that routes it through existing machinery. `point` was added as a hook with no CSS rule and no reader yet. **2026-09-01:** gave the new backspace button `class="btn backspace"` without being told what kind of hook it needed — a class for the handler to match on rather than a label for it to read. First time the hook/label separation was applied to a brand-new button unprompted. **Reversed and relearned the same day:** replaced that class with `.operator` to get the orange, collapsing routing and styling back onto one class and crashing `=`. Separated them again — class routes, CSS selector list styles. | 2026-09-01 |
 | `data-attributes` | `practicing` | `behavior-vs-style-hooks` | Explained the read side unprompted (`element.dataset.op`), then added `data-op` to all four operator buttons with values matching the function names — `divide`, `multiply`, `subtract`, `add`. **2026-09-01, misused and repaired:** shipped the backspace button as `class="operator" data-op="backspace"`, reading `data-op` as "which non-digit button is this" rather than "a name `getOperation` can resolve". Stated both motives honestly when asked — the orange styling and the generic tag — and rewrote the markup to a routing class of its own before being asked to. | 2026-09-01 |
 | `unicode-operator-labels` | `introduced` | `textcontent` | Verified by inspection: `÷` is U+00F7, `×` is U+00D7, `−` is U+2212 — none match `/`, `*`, `-`. Applied the mitigation (`data-op`) without needing the reason restated, but never re-derived the problem independently. | 2026-08-28 |
@@ -87,13 +87,13 @@ Seeded: 2026-08-28
 
 ---
 
-## Summary (recomputed 2026-09-01, after task 8.1)
+## Summary (recomputed 2026-09-01, after task 8.2)
 
 | Status | Count |
 | --- | --- |
-| `practicing` | 31 |
+| `practicing` | 32 |
 | `introduced` | 4 |
-| `seed` | 4 |
+| `seed` | 3 |
 | `out-of-scope` | 2 |
 
 Nothing sits at `understood` yet, and nothing should — that status means writing

@@ -247,7 +247,7 @@ for `=`.
 ### Tasks
 
 - [x] **8.1** Reclaim `<button>` semantics — say what `<button>` gives you that a `<div>` with a click listener wouldn't, then swap one and find out.
-- [ ] **8.2** A `keydown` listener reports which key was pressed.
+- [x] **8.2** A `keydown` listener reports which key was pressed.
 - [ ] **8.3** Digits and `.` typed on the keyboard reach the display.
 
 > **Open decision, raised 2026-09-01 during 8.1.** `infinityError` was renamed to
