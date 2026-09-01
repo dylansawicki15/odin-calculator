@@ -99,6 +99,13 @@ buttons.addEventListener("click", (event) => {
         return;
     }
 
+    if (event.target.matches(".backspace")) {
+        currentInput = currentInput.slice(0, -1);
+        syncPointButton(); 
+        renderDisplay(currentInput);
+        return;
+    }
+
     if (event.target.matches(".operator")) {
         showingResult = false;
 

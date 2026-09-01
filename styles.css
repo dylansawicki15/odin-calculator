@@ -78,11 +78,11 @@ body, .container {
     cursor: not-allowed;
 }
 
-.operator {
+.operator, .backspace {
     background-color: rgb(255, 179, 71);
 }
 
-.operator:hover {
+.operator:hover, .backspace:hover {
     background-color: rgb(240, 165, 60);
 }
 
