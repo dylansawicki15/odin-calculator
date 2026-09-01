@@ -72,6 +72,12 @@ body, .container {
     background-color: rgb(185, 185, 185);
 }
 
+.btn:disabled {
+    background-color: rgb(170, 170, 170);
+    color: rgb(70, 70, 70);
+    cursor: not-allowed;
+}
+
 .operator {
     background-color: rgb(255, 179, 71);
 }

@@ -71,7 +71,7 @@ Seeded: 2026-08-28
 | `flexbox-centering` | `practicing` | `flex-axis` | **Reclaimed 2026-08-31.** Derived the whole `.display` block from the *absence* of a `flex-direction`: default is `row`, so the main axis is horizontal, so `justify-content: flex-end` is what pins the number right and `align-items: flex-end` is what drops it to the bottom. Then applied it predictively — called which end of an overflowing number survives the clip (the tail) and why (the right edge is pinned, so growth runs backwards). | 2026-08-31 |
 | `overflow-vs-layout` | `practicing` | `flexbox-centering` | **Introduced 2026-08-31.** Predicted both halves of removing `overflow: hidden` before running it: the layout would not move, and the digits would paint outside the box over the grey calculator body. Both confirmed by his own run. The distinction — overflow is a painting problem, not a sizing one; nothing reflows to accommodate it — was his own phrasing. | 2026-08-31 |
 | `line-breaking-opportunities` | `introduced` | — | Answered unaided why sixteen digits hung off the side instead of wrapping into a 90px-tall box: "there's no spaces so it cant break the line anywhere." The flexbox layer underneath — flex items refuse to shrink below min-content, which for an unbreakable string is the whole string, hence `min-width: 0` — was **explained to him, not derived**. No code written against it. | 2026-08-31 |
-| `css-specificity` | `seed` | — | `.operator` and `.clear` override `.btn`; `:hover`/`:active` layer on top. Unprobed, cosmetic. | — |
+| `css-specificity` | `practicing` | — | **2026-09-01.** Said `.operator` beats `.btn` on **source order**, not specificity — both are one class, so they tie. Wrote `.btn:disabled` unaided; `cursor: none` was the one miss, corrected to `not-allowed` after seeing that `none` hides the pointer entirely. Then predicted both halves of the break correctly: the rule stayed grey when moved above `.btn` ("specificity beats order"), and lost the tie to `.btn:hover` on position — confirmed in the browser. | 2026-09-01 |
 | `html-button-semantics` | `seed` | — | Why `<button>` and not `<div>` — focusability, keyboard activation. Becomes load-bearing at the keyboard-support stage. | — |
 
 ## Engineering practice
@@ -91,9 +91,9 @@ Seeded: 2026-08-28
 
 | Status | Count |
 | --- | --- |
-| `practicing` | 27 |
+| `practicing` | 28 |
 | `introduced` | 5 |
-| `seed` | 7 |
+| `seed` | 6 |
 | `out-of-scope` | 2 |
 
 Nothing sits at `understood` yet, and nothing should — that status means writing

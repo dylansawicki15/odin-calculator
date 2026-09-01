@@ -191,7 +191,7 @@ during triage — *core first, extras after*.
 - [x] **6.1** Add the `.` button to the keypad. The grid is full — something has to give up a slot before it can exist.
 - [x] **6.2** Clicking `.` appends to the typing buffer, so `3.14 + 1 =` shows `4.14`.
 - [x] **6.3** The `.` button disables itself once the current number already has one, and comes back when a new number starts.
-- [ ] **6.4** Reclaim CSS specificity — give a disabled button its own look, explain why `.btn:disabled` wins over `.btn`, break it on purpose.
+- [x] **6.4** Reclaim CSS specificity — give a disabled button its own look, explain why `.btn:disabled` wins over `.btn`, break it on purpose.
 - [ ] **6.5** A lone `.` with no digits stops reporting the wrong error.
 
 > **6.2 came free with 6.1, 2026-08-31.** The `.` button was given the `digit` class,
