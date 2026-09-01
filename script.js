@@ -27,9 +27,11 @@ function divide(a, b) {
 
 const display = document.querySelector(".display");
 const buttons = document.querySelector(".buttons");
+const point = document.querySelector(".point");
 
 function appendDigit(digit) {
     currentInput += digit;
+    syncPointButton();
     renderDisplay(currentInput);
 }
 
@@ -43,6 +45,10 @@ function renderDisplay(value) {
 
 function roundForDisplay(value) {
     return Number(value.toFixed(MAX_DECIMALS));
+}
+
+function syncPointButton() {
+    point.disabled = !showingResult && currentInput.includes(".");
 }
 
 function getOperation(name) {
@@ -73,12 +79,14 @@ function clearAll() {
     currentInput = "";
     showingResult = false;
     renderDisplay(currentInput);
+    syncPointButton();
 }
 
 buttons.addEventListener("click", (event) => {
     if (event.target.matches(".digit")) {
         if (showingResult) {
             currentInput = "";
+            syncPointButton();
             showingResult = false;
         }
         appendDigit(event.target.textContent);
@@ -107,6 +115,7 @@ buttons.addEventListener("click", (event) => {
 
         operator = event.target.dataset.op;
         currentInput = "";
+        syncPointButton();
         return;
     }
 
@@ -121,6 +130,7 @@ buttons.addEventListener("click", (event) => {
         currentInput = String(result);
         operator = "";
         showingResult = true;
+        syncPointButton();
         return;
     }
 });

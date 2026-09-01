@@ -190,18 +190,19 @@ during triage — *core first, extras after*.
 
 - [x] **6.1** Add the `.` button to the keypad. The grid is full — something has to give up a slot before it can exist.
 - [x] **6.2** Clicking `.` appends to the typing buffer, so `3.14 + 1 =` shows `4.14`.
-- [ ] **6.3** The `.` button disables itself once the current number already has one, and comes back when a new number starts.
+- [x] **6.3** The `.` button disables itself once the current number already has one, and comes back when a new number starts.
 - [ ] **6.4** Reclaim CSS specificity — give a disabled button its own look, explain why `.btn:disabled` wins over `.btn`, break it on purpose.
+- [ ] **6.5** A lone `.` with no digits stops reporting the wrong error.
 
 > **6.2 came free with 6.1, 2026-08-31.** The `.` button was given the `digit` class,
 > so the existing handler already routes it: `appendDigit` concatenates `textContent`
 > onto a string buffer and does not care which character it gets. `3.14 + 1 =` showed
 > `4.14` with no JavaScript written. Marked done on the observable, not skipped.
 >
-> **Carried in to 6.3:** a lone `.` with no digits makes `Number(".")` → `NaN`, which
-> `evaluate()` rejects via `Number.isFinite` and reports as `Error: infinity` — a real
-> guard firing with the wrong message. Decide there whether to prevent the input or
-> widen the message.
+> **Not fixed in 6.3, moved to 6.5.** A lone `.` with no digits makes `Number(".")` →
+> `NaN`, which `evaluate()` rejects via `Number.isFinite` and reports as `Error: infinity`
+> — a real guard firing with the wrong message. Task 6.3 made `3..14` impossible but left
+> this untouched, so it gets its own task rather than being quietly dropped.
 
 > **Note on 6.1 and Section 7.** Making room for `.` means changing a spanning rule,
 > which is a slice of Section 7's reclaim task. It does not spend it: after `.` lands the
