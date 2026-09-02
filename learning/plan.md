@@ -266,7 +266,7 @@ for `=`.
 > **Closed in 8.3.** Keys route through `keyToButton` → `.click()`, so every keystroke enters through
 > the click handler that already validates. Nothing can put a non-numeric string in `currentInput`,
 > the door stays shut, and `"Error: infinity"` remains accurate.
-- [ ] **8.4** Operators, Enter, Escape and Backspace all work from the keyboard.
+- [x] **8.4** Operators, Enter, Escape and Backspace all work from the keyboard.
 - [ ] **8.5** The focus bug: click a button with the mouse, then press Enter, and it fires again. Find the cause and fix it.
 
 ---
