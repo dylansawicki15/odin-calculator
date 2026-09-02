@@ -11,7 +11,7 @@ This ledger is **parked-heavy on purpose**. Every parked line is a lesson alread
 scheduled, not a failure. The CSS file is mostly parked because it was mostly
 unprobed — absence of evidence, recorded honestly.
 
-Last updated: 2026-09-02 (through task 8.5)
+Last updated: 2026-09-02 (through task 9.2)
 
 ---
 
@@ -23,7 +23,7 @@ use to find things. Split by region because the regions differ in status.
 
 | Region | Status | Why |
 | --- | --- | --- |
-| `<script defer src="script.js">` (line 7) | `known` | Explained the mechanism *and* predicted that `querySelector` would return `null` if removed. → [[script-loading-defer]] |
+| `<script defer src="script.js">` (line 7) | `known` | Explained the mechanism *and* predicted that `querySelector` would return `null` if removed. **`defer` and not `type="module"`, proven 9.1:** swapped on purpose and the page died on a CORS error under `file://` — modules are always fetched with CORS semantics and a `file://` document has no real origin, so the check can never pass. A classic `<script src>` carries no such check, which is the whole reason this project runs by double-clicking a file. The same broken page would have worked on GitHub Pages. → [[script-loading-defer]], [[origins-and-file-protocol]], [[static-sites]] |
 | `class="digit"` on 7,8,9,4,5,6,1,2,3 | `known` | Own uncommitted work; explained the plan (listen for clicks, branch on the class). → [[event-delegation]] |
 | `<div class="display"></div>` (line 14) | `known` | **Emptied 2026-08-28, own edit.** Was dummy content (`1234.56`); now blank, matching the deliberate blank-on-load decision. Tradeoff identified unprompted: a failed script and an untouched calculator now look the same. → [[textcontent]], [[silent-failure]] |
 | `<button class="btn digit point">.</button>` (line 37) | `known` | **Own edit 2026-08-31.** Carries `digit`, so the existing handler appends it with no new code — `appendDigit` concatenates onto a string buffer and is indifferent to the character. `point` is a second hook: **as of 2026-09-01 it is the selection handle** JavaScript uses to reach this button, It never became the styling handle: 6.4 styled `.btn:disabled` instead, because the disabled state lives on the element itself and CSS can match it directly. `.point` still has no CSS rule and may never need one. **Must stay a `<button>` (8.1):** `syncPointButton` sets `point.disabled`, and only a real button honours it — as a `<div>` the property is an inert expando, `3.1.4` becomes typeable, and `evaluate` reports it as `Error: infinity`. Part of this app's validation lives in the element type. → [[behavior-vs-style-hooks]], [[css-grid]], [[html-button-semantics]], [[guards-for-impossible-states]] |
@@ -69,9 +69,16 @@ not yet load-bearing, and each parked line names the task that comes for it.
 | `.display` flex + `overflow: hidden` (36–49) | `known` | **Reclaimed 2026-08-31.** Default `flex-direction: row` makes the main axis horizontal, so `justify-content: flex-end` pins the number right and `align-items: flex-end` drops it to the bottom. `overflow: hidden` clips what doesn't fit — off the **left**, because the right edge is pinned, so a too-long number silently shows its tail and hides its head. Removing it changes no layout at all; the digits just paint over the grey. → [[flexbox-centering]], [[flex-axis]], [[overflow-vs-layout]], [[line-breaking-opportunities]] |
 | `.btn` + its `:hover` / `:active` / `:disabled` states, `.operator`, `.clear`, `.equals` colors (59–106) | `known` | **Reclaimed 2026-09-01.** `.operator` beats `.btn` on **source order**, not specificity — both score (0,1,0), so position is the only tiebreaker. `.btn:disabled` is the opposite case: a pseudo-class counts at the class level, making it (0,2,0), so it wins wherever it sits. That rule is learner-written. Its placement **after** `:hover` and `:active` is load-bearing — all three tie at (0,2,0), so moving it above `:hover` makes a disabled button light up under the mouse. `cursor: not-allowed` stops `.btn`'s unconditional `cursor: pointer` from lying. **2026-09-01:** `.backspace` joined `.operator` as a **selector list** on both the base and hover rules, so `⌫` gets the orange without the two colour values being written a second time — styling shared, routing class still its own. → [[css-specificity]], [[dry-knowledge-duplication]] |
 
-### `README.md` — one line
-`# odin-calculator`, nothing else. `parked`. **Due:** before this goes in a
-portfolio. Not blocking any code. → [[project-documentation]]
+### `README.md` — the front door
+`parked` — **agent-authored 2026-09-02** at the learner's request, after he wrote a
+first draft and then declined to revise it ("just fix the readme for me i dont
+mind"). That first draft is preserved in git history and is the honest record of
+where [[project-documentation]] actually stands. Three sections: what this is and
+why it exists, how to run it, and four decisions phrased as visible behaviour
+rather than as internals. Every behavioural claim in it was traced against
+`script.js` before being written, and the `1 / 3 = x 3 =` example was executed.
+**Due:** if this ever goes public — 9.3 was cut, so nothing is published today.
+→ [[project-documentation]], [[origins-and-file-protocol]], [[static-sites]]
 
 ---
 

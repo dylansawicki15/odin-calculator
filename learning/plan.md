@@ -283,6 +283,20 @@ ever added one.
 *Receipts:* parking lot in [project.md](project.md) — README and deployment were
 both logged there during triage.
 
+### Tasks
+
+- [x] **9.1** Reclaim `static-sites` — say what a web server actually has to do to serve
+      this app, then break the thing that makes `file://` work and watch it stop.
+- [x] **9.2** Write a README someone who has never seen the project could use.
+- ~~**9.3** Publish it — push, turn on GitHub Pages, end with a live URL.~~
+      **Cut 2026-09-02 at the learner's request** — "im just going to commit this and
+      that will be that." Not deferred, cut.
+- ~~**9.4** Open the live URL and find what differs from opening `index.html` off
+      disk.~~ **Cut 2026-09-02** — depended entirely on 9.3.
+
+**Section 9 lands at half its deliverable:** the README exists, the live URL does
+not. `deployment` is untouched. Section closes here.
+
 ---
 
 ## What this plan is not
