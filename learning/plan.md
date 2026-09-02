@@ -267,7 +267,7 @@ for `=`.
 > the click handler that already validates. Nothing can put a non-numeric string in `currentInput`,
 > the door stays shut, and `"Error: infinity"` remains accurate.
 - [x] **8.4** Operators, Enter, Escape and Backspace all work from the keyboard.
-- [ ] **8.5** The focus bug: click a button with the mouse, then press Enter, and it fires again. Find the cause and fix it.
+- [x] **8.5** The focus bug: click a button with the mouse, then press Enter, and it fires again. Find the cause and fix it.
 
 ---
 

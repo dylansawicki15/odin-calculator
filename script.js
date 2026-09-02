@@ -152,6 +152,7 @@ for (const button of document.querySelectorAll("[data-key]")) {
 document.addEventListener("keydown", (event) => {
     const button = keyToButton.get(event.key);
     if (!button) return;
+    event.preventDefault();
     button.click();
 });
 
